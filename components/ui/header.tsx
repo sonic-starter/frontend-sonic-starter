@@ -224,7 +224,7 @@ export const Header: React.FC = () => {
             <div className="p-2 rounded-sm border border-primary text-primary ">
               <Plus className="h-4 w-4 text-primary" />
             </div>
-            <span className="text-primary">{formatBalance(balance)} GIN</span>
+            <span className="text-primary">{formatBalance(balance)} S TOKEN</span>
           </div>
 
           <Button

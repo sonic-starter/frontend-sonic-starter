@@ -661,7 +661,7 @@ export default function CreateAgent({ agentId }: any) {
 
             <div className="rounded-lg">
               <p className="text-sm  text-center">
-                Agent Cost: 500 GIN
+                Agent Cost: 500 S TOKEN
               </p>
 
               {agentId ? (

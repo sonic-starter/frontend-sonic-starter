@@ -78,7 +78,7 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
 
   const handleExchange = async () => {
     if (!authenticated || !ginAmount) {
-      console.log('User not authenticated or no GIN amount entered');
+      console.log('User not authenticated or no S TOKEN entered');
       return;
     }
 
@@ -96,7 +96,7 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
 
       console.log('ETH Value:', ethValue.toString());
       console.log('Exchange Rate:', exchangeRate);
-      console.log('GIN Amount:', ginAmount);
+      console.log('S TOKEN Amount:', ginAmount);
 
       const tx = await exchangeContract.exchange({ value: ethValue });
       console.log('Transaction sent, waiting for confirmation...');
@@ -119,13 +119,13 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  // Calculate ETH value based on GIN amount and exchange rate
+  // Calculate ETH value based on S TOKEN amount and exchange rate
   const calculateEthValue = (): string => {
     if (!ginAmount || exchangeRate === 0) return "0";
     const ginAmountBN = ethers.utils.parseUnits(ginAmount, 18);
     const ethValue = ginAmountBN.div(exchangeRate);
     const formattedEthValue = ethers.utils.formatEther(ethValue);
-    console.log('GIN Amount:', ginAmount);
+    console.log('S TOKEN Amount:', ginAmount);
     console.log('Exchange Rate:', exchangeRate);
     console.log('Calculated ETH Value:', formattedEthValue);
     return formattedEthValue;
@@ -137,7 +137,7 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 z-50 flex flex-col gap-2 items-center justify-center bg-lightbg/50">
       <div className="bg-lightbg border border-primary/60 text-primary  rounded-lg shadow-lg w-[90%] max-w-md p-7 relative">
         <div className="flex justify-between items-center mb-2">
-          <h2 className="text-2xl font-semibold">Get GIN Tokens</h2>
+          <h2 className="text-2xl font-semibold">Get S Tokens</h2>
           <button onClick={onClose} className="text-foreground">
             <X className="h-5 w-5 text-primary" />
           </button>
@@ -175,12 +175,12 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
 
       <div className="bg-lightbg border text-primary border-primary/60  rounded-lg shadow-lg w-[90%] max-w-md p-7 relative">
         <div>
-          <h3 className="text-2xl font-semibold mb-4">Add tokens</h3>
+          <h3 className="text-2xl font-semibold mb-4">Add S token</h3>
           <p className="text-sm ">
-            Your GIN Balance: {balance} GIN
+            Your S TOKEN Balance: {balance} S TOKEN
           </p>
           <p className="text-sm  mb-8">
-            Exchange Rate: 1 ETH = {exchangeRate} GIN
+            Exchange Rate: 1 ETH = {exchangeRate} S TOKEN
           </p>
           <div className="flex gap-2 mb-4">
             <button
@@ -202,12 +202,12 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
               2M
             </button>
           </div>
-          <label className="">GIN Amount</label>
+          <label className="">S TOKEN Amount</label>
           <input
             type="number"
             value={ginAmount}
             onChange={(e) => setGinAmount(e.target.value)}
-            placeholder="GIN amount"
+            placeholder="S TOKEN amount"
             className="w-full px-4 py-3 bg-lightbg rounded-md placeholder:text-primary border border-primary/60 my-3 focus:outline-none"
             disabled={!authenticated}
           />
