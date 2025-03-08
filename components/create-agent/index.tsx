@@ -507,7 +507,7 @@ export default function CreateAgent({ agentId }: any) {
         <div className="py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Left Side - Agent Details */}
           <div className="space-y-6">
-            <Card className="p-6  border border-primary/60 backdrop-blur">
+            {/* <Card className="p-6  border border-primary/60 backdrop-blur">
               <h2 className="text-lg font-semibold text-primary mb-4">Upload your ABI</h2>
               <textarea
               className="flex w-full my-2 placeholder:text-primary bg-lightbg  border border-primary/60 rounded-lg px-4 py-2 text-primary focus:border-primary focus:outline-none overflow-y-auto scrollbar"
@@ -523,7 +523,7 @@ export default function CreateAgent({ agentId }: any) {
                 onChange={(e) => handleChange("contractAddress", e.target.value)}
               />
 
-            </Card>
+            </Card> */}
 
             <Card className="p-6 border border-primary/60 backdrop-blur">
               <h2 className="text-lg font-semibold text-primary mb-4">Agent Details</h2>
