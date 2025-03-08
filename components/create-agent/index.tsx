@@ -17,6 +17,8 @@ import { useRouter } from "next/navigation";
 import { AgentApiModal } from "../AgentApiModal ";
 import { ethers } from "ethers";
 import abi_erc20 from "@/config/abi_erc20.json";
+import abi_token_bonding_curve_factory from "@/config/abi_Fectory_Bonding_Curve.json";
+import abi_token_bonding_curve from "@/config/abi_Bonding_curve.json";
 import Modal from "../Modal";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card } from "../ui/card";
@@ -360,33 +362,53 @@ export default function CreateAgent({ agentId }: any) {
   const [isCreating, setIsCreating] = useState<boolean>(false); // New state to manage input disable
 
   const handleCreate = async () => {
-    // if (!validateFields()) return; // Check if fields are valid before proceeding
+    if (!validateFields()) return; // Check if fields are valid before proceeding
 
     setIsCreating(true); // Disable inputs when creating the agent
-
-   
-
     setLoading(true); // Set loading state only after validation
-    try {
 
-      
-      // Payment process
+    try {
+      // Request account access if needed
       await window.ethereum.request({ method: 'eth_requestAccounts' });
 
+      // Create a provider
       const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+      // Get the signer
       const signer = provider.getSigner();
-      const erc20Contract = new ethers.Contract(config.ERC20_CONTRACT_ADDRESS, abi_erc20, signer);
 
-      const adminAddress = config.GINTONIC_CONTRACT_ADDRESS; // Replace with the actual admin address
-      const ginAmount = ethers.utils.parseUnits('500', 18); // 500 GIN
+      // Log the network details to verify the connection
+      const network = await provider.getNetwork();
+      console.log('Connected to network:', network);
 
-      const tx = await erc20Contract.transfer(adminAddress, ginAmount);
-      console.log('Transaction sent, waiting for confirmation...');
-      await tx.wait();
+      // Ensure you're using Ethereum addresses directly
+      const priceFeedAddress = "0x1D368773735ee1E678950B7A97bcA2CafB330CDc"; // Replace with actual Ethereum address
+      const uniswapRouterAddress = "0x1D368773735ee1E678950B7A97bcA2CafB330CDc"; // Replace with actual Ethereum address
 
-      console.log('Payment successful');
-      toast.success('Payment successful! Creating agent.');
+      // Create a contract instance
+      const contract = new ethers.Contract(config.TOKEN_BONDING_CURVE_FACTORY_CONTRACT_ADDRESS, abi_token_bonding_curve_factory, signer);
 
+      // Call the deployContract function with addresses
+      const tx = await contract.deployContract(
+        "0x5a3b2c1d0e9f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b", // Replace with actual projectId
+        formData.agentName, // Use agent name as contract name
+        tokenDetails.symbol, // Use token symbol
+        parseInt(tokenDetails.supply), // Convert supply to number
+        100, // basePriceUsd, replace with actual value
+        10, // slopeUsd, replace with actual value
+        1000000, // targetMarketCapUsd, replace with actual value
+        priceFeedAddress, // Use Ethereum address
+        uniswapRouterAddress // Use Ethereum address
+      );
+
+      console.log("Transaction sent:", tx.hash);
+
+      // Wait for the transaction to be mined
+      const receipt = await tx.wait();
+      console.log("Transaction mined:", receipt);
+
+      const contractAddress = receipt.contractAddress; // Assuming the contract address is returned here
+      console.log('Contract function executed, contract address:', contractAddress);
 
       // Proceed with agent creation
       let avatarUrl = "";
@@ -396,8 +418,6 @@ export default function CreateAgent({ agentId }: any) {
         const avatarHash = await uploadToPinata(avatar);
         avatarUrl = `https://gateway.pinata.cloud/ipfs/${avatarHash}`;
       }
-
- 
 
       // Send the data to your API
       const agentResponse = await axios.post(
@@ -411,10 +431,9 @@ export default function CreateAgent({ agentId }: any) {
           llmModel: formData.llmModel,
           llmProvider: formData.llmProvider,
           userAddress: walletAddress,
-          // openaiAssistantId: "openai-assistant-id",
           categories: selectedFunction,
           tokenName: tokenDetails.name,
-          tokenAddress: "0xTokenAddress",
+          tokenAddress: contractAddress, // deployed contract address
           totalSupply: tokenDetails.supply,
           tokenSymbol: tokenDetails.symbol,
           model: "gpt-4",
@@ -435,7 +454,7 @@ export default function CreateAgent({ agentId }: any) {
         router.push('/myagents');
       }, 0); // Redirect after successful creation
     } catch (error) {
-      console.error('Error during payment or agent creation:', error);
+      console.error('Error during agent creation:', error);
       toast.error('Failed to create agent. Please try again.');
     } finally {
       setLoading(false);
@@ -673,31 +692,13 @@ export default function CreateAgent({ agentId }: any) {
                   {loading ? "Updating..." : "Update Agent"}
                 </Button>
               ) : authenticated ? (
-                <>
-                  {parseFloat(balance) >= 500 ? (
-                    <Button
-                      className="w-full mt-4 border border-primary/60 text-primary hover:bg-primary/20 "
-                      onClick={handleCreate}
-                      disabled={loading}
-                    >
-
-                      {loading ? "Creating..." : "Create Agent"}
-                    </Button>
-                  ) : (
-                    <Button
-                      className="w-full mt-4  border border-primary/60 text-primary hover:bg-primary/20 flex gap-1"
-                      onClick={toggleGinTokenModal} // Function to handle adding tokens
-                    >
-
-                      Add Token
-                    </Button>
-                  )}
-                  {responseMessage && (
-                    <p className="text-center text-sm mt-2 text-primary">
-                      {responseMessage}
-                    </p>
-                  )}
-                </>
+                <Button
+                  className="w-full mt-4 border border-primary/60 text-primary hover:bg-primary/20 "
+                  onClick={handleCreate}
+                  disabled={loading}
+                >
+                  {loading ? "Creating..." : "Create Agent"}
+                </Button>
               ) : (
                 <Button
                   className="w-full bg-primary mt-4 text-black flex gap-1"
