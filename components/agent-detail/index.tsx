@@ -813,15 +813,15 @@ export default function AgentDetail() {
 
 
             <div className=" p-4 my-auto border border-primary/60 rounded-lg bg-lightbg mb-4">
-              <div className="flex justify-evenly mb-4">
+              <div className="grid grid-cols-2 mb-4 bg-primary/10 rounded-sm">
                 <button
-                  className={`text-primary ${activeTradeTab === "buy" ? "border-b-2 border-primary" : ""}`}
+                  className={`text-primary ${activeTradeTab === "buy" ? "border p-1 rounded-sm border-primary" : ""}`}
                   onClick={() => setActiveTradeTab("buy")}
                 >
                   Buy
                 </button>
                 <button
-                  className={`text-primary ${activeTradeTab === "sell" ? "border-b-2 border-primary" : ""}`}
+                  className={`text-primary ${activeTradeTab === "sell" ? "border p-1 rounded-sm border-primary" : ""}`}
                   onClick={() => setActiveTradeTab("sell")}
                 >
                   Sell
