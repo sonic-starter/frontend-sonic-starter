@@ -4,7 +4,7 @@ const config = {
 
     BASE_URL: "https://ai-agent-backend-production.up.railway.app",
     
-    // BASE_URL: "https://6798-182-65-85-14.ngrok-free.app",
+    // BASE_URL: "https://d8dc-182-77-121-32.ngrok-free.app",
     // BASE_URL: "http://localhost:3006",
     PINATA_JWT: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJiYTNiMDgyOS1lMGEwLTQ0Y2YtYjM2OS1mYzliM2NhNmJhODgiLCJlbWFpbCI6InZpbmFoYXJ2YW5pMjAwMEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiOWM2MzYxYjlkZjQ4NWNkZDNjNTAiLCJzY29wZWRLZXlTZWNyZXQiOiJhODg3M2E1MzRkMzE5ZjU2ZjExMmQwYWFiMGEyYWYxNzY2YjRiYWJjYmIyNTM1ZGU4ZWI1NDdlNDA2NjFmMGMxIiwiZXhwIjoxNzY3NDE3ODU4fQ.lpTm9x0r08Bqb_vCfQs8s-QL3yeMlR4KNdIb9b7gdz8",
     NEXT_PUBLIC_GATEWAY_URL : "https://tan-worrying-fly-434.mypinata.cloud",
