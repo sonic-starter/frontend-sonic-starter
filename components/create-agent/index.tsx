@@ -361,6 +361,13 @@ export default function CreateAgent({ agentId }: any) {
 
   const [isCreating, setIsCreating] = useState<boolean>(false); // New state to manage input disable
 
+  // Function to generate a random unique string
+  function generateRandomUniqueString() {
+    const timestamp = Date.now().toString(); // Current timestamp
+    const randomNum = Math.floor(Math.random() * 1e6).toString(); // Random number
+    return `${timestamp}-${randomNum}`;
+  }
+
   const handleCreate = async () => {
     if (!validateFields()) return; // Check if fields are valid before proceeding
 
@@ -388,9 +395,12 @@ export default function CreateAgent({ agentId }: any) {
       // Create a contract instance
       const contract = new ethers.Contract(config.TOKEN_BONDING_CURVE_FACTORY_CONTRACT_ADDRESS, abi_token_bonding_curve_factory, signer);
 
+      // Generate a random unique projectId
+      const projectId = ethers.utils.formatBytes32String(generateRandomUniqueString());
+
       // Call the deployContract function with addresses
       const tx = await contract.deployContract(
-        "0x5a3b2c1d0e9f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b", // Replace with actual projectId
+        projectId, // Use projectId
         formData.agentName, // Use agent name as contract name
         tokenDetails.symbol, // Use token symbol
         parseInt(tokenDetails.supply), // Convert supply to number
@@ -437,6 +447,7 @@ export default function CreateAgent({ agentId }: any) {
           totalSupply: tokenDetails.supply,
           tokenSymbol: tokenDetails.symbol,
           model: "gpt-4",
+          projectId: projectId // Add projectId to the API request
         },
         {
           headers: {
