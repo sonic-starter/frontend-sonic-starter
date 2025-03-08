@@ -282,14 +282,14 @@ export default function AgentDetail() {
     setInputMessage("");
 
     const ginBalance = parseFloat(formatBalance(balance));
-    if (ginBalance < 5) {
-      // Show insufficient balance message
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "ai", text: "Insufficient GIN balance. You need at least 5 GIN tokens to chat.", timestamp: new Date().toLocaleTimeString() },
-      ]);
-      return; // Exit the function if balance is insufficient
-    }
+    // if (ginBalance < 5) {
+    //   // Show insufficient balance message
+    //   setMessages((prevMessages) => [
+    //     ...prevMessages,
+    //     { sender: "ai", text: "Insufficient GIN balance. You need at least 5 GIN tokens to chat.", timestamp: new Date().toLocaleTimeString() },
+    //   ]);
+    //   return; // Exit the function if balance is insufficient
+    // }
 
     setLoading(true);
 

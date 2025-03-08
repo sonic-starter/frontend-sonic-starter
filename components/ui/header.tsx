@@ -220,12 +220,12 @@ export const Header: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="hidden md:flex items-center gap-2 cursor-pointer" onClick={toggleModal}>
+          {/* <div className="hidden md:flex items-center gap-2 cursor-pointer" onClick={toggleModal}>
             <div className="p-2 rounded-sm border border-primary text-primary ">
               <Plus className="h-4 w-4 text-primary" />
             </div>
             <span className="text-primary">{formatBalance(balance)} S TOKEN</span>
-          </div>
+          </div> */}
 
           <Button
             className="border border-primary text-primary"

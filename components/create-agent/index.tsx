@@ -679,9 +679,9 @@ export default function CreateAgent({ agentId }: any) {
         
 
             <div className="rounded-lg">
-              <p className="text-sm  text-center">
+              {/* <p className="text-sm  text-center">
                 Agent Cost: 500 S TOKEN
-              </p>
+              </p> */}
 
               {agentId ? (
                 <Button
