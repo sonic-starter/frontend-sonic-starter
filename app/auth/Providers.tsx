@@ -39,9 +39,9 @@ export const Providers: React.FC<PrivyProviderWrapperProps> = ({ children }) => 
       config={{
         loginMethods: ['wallet','email'],
         appearance: {
-          theme: 'dark',
+          theme: 'light',
           accentColor: '#676FFF',
-          logo: 'https://i.imgur.com/6IYBfVa.png',
+          // logo: 'https://i.imgur.com/6IYBfVa.png',
         },
         embeddedWallets: {
           createOnLogin: 'users-without-wallets',

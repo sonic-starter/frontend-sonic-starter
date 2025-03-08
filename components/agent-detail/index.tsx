@@ -550,7 +550,10 @@ export default function AgentDetail() {
                             {agentDetails.name}
                           </h3>
                           <p className="text-sm ">
-                            by {agentDetails.tokenAddress}
+                            by {agentDetails.userAddress}
+                          </p>
+                          <p className="text-sm ">
+                            tokenAddress : {agentDetails.tokenAddress}
                           </p>
                         </div>
                       </div>
