@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';  
-import {base, mainnet, mantle, sepolia, polygon , sonicTestnet} from 'viem/chains';
+import {base, mainnet, mantle, sepolia, polygon , sonicTestnet,} from 'viem/chains';
+
 // import './index.css';
 
 import { PrivyProvider } from '@privy-io/react-auth';
@@ -10,6 +11,26 @@ import { PrivyProvider } from '@privy-io/react-auth';
 interface PrivyProviderWrapperProps {
   children: ReactNode;
 }
+
+ const sonicBlazeTestnet =({
+  id: 57054,
+  name: 'Sonic Blaze Testnet',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Sonic Blaze Testnet',
+    symbol: 'S',
+  },
+  rpcUrls: {
+    default: { http: ['https://rpc.blaze.soniclabs.com'] },
+  },
+  blockExplorers: {
+    default: {
+      name: 'Sonic Blaze Testnet Explorer',
+      url: 'https://blaze.soniclabs.com/',
+    },
+  },
+  testnet: true,
+})
 
 export const Providers: React.FC<PrivyProviderWrapperProps> = ({ children }) => {
   return (
@@ -25,9 +46,9 @@ export const Providers: React.FC<PrivyProviderWrapperProps> = ({ children }) => 
         embeddedWallets: {
           createOnLogin: 'users-without-wallets',
         },
-        defaultChain: sonicTestnet ,
+        defaultChain: sonicBlazeTestnet ,
         // Replace this with a list of your desired supported chains
-        supportedChains: [ sepolia , sonicTestnet] ,
+        supportedChains: [ sonicBlazeTestnet ,sepolia ] ,
       }}
     >
       {children}
