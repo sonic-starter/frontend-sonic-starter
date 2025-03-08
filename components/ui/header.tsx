@@ -66,64 +66,102 @@ export const Header: React.FC = () => {
 
 
 
-  const authenticateUser = async () => {
-    // Check if JWT token already exists in context or localStorage
+  // const authenticateUser = async () => {
+  //   // Check if JWT token already exists in context or localStorage
+  //   const storedToken = localStorage.getItem("jwtToken");
+  //   if (jwtToken || storedToken) {
+  //     setJwtToken(storedToken);
+  //     return;
+  //   }
+
+  //   if (!authenticated || !user?.wallet?.address) return;
+
+  //   try {
+  //     const nonceResponse = await axios.post(`${config.BASE_URL}/api/users/get-nonce`, {
+  //       address: user.wallet.address,
+  //     });
+
+  //     if (nonceResponse.status !== 200 || !nonceResponse.data.nonce) {
+  //       throw new Error("Failed to fetch nonce for authentication.");
+  //     }
+
+  //     const message = nonceResponse.data.nonce;
+  //     let signature;
+  //     console.log("User wallet object:", user.wallet);
+  //     if ('embedded' in user.wallet) {
+  //       signature = await signMessage(message);
+  //     } else if (window.ethereum) {
+  //       const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //       const signer = provider.getSigner();
+  //       signature = await signer.signMessage(message);
+  //     } else {
+  //       throw new Error("No wallet available to sign the message.");
+  //     }
+
+  //     console.log("signature in header...........", signature);
+
+  //     const response = await axios.post(`${config.BASE_URL}/api/users/authenticate`, {
+  //       address: user.wallet.address,
+  //       signature: signature,
+  //     });
+
+  //     if (response.status === 200) {
+  //       toast.success("Successfully authenticated!");
+  //       setJwtToken(response.data.token);  // Store JWT token in context
+  //       localStorage.setItem("jwtToken", response.data.token); // Persist token in localStorage
+  //     } else {
+  //       toast.error("Authentication failed.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Authentication error:", error);
+  //     toast.error("An error occurred during authentication.");
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (authenticated && !jwtToken) {
+  //     authenticateUser();
+  //   }
+  // }, [authenticated]);
+
+
+
+  useEffect(() => {
+    const fetchToken = async () => {
+
     const storedToken = localStorage.getItem("jwtToken");
     if (jwtToken || storedToken) {
       setJwtToken(storedToken);
       return;
     }
 
-    if (!authenticated || !user?.wallet?.address) return;
+      if (authenticated && userAddress) {
+        try {
+          const response = await axios.post(`${config.BASE_URL}/api/users/authenticate`, {
+            address: userAddress,
+          });
+          
+          if (response.status === 200) {
+            toast.success("Token generated successfully!");
+            setJwtToken(response.data.token);  // Store JWT token in context
+            console.log(jwtToken)
+            localStorage.setItem("jwtToken", response.data.token); // Persist token in localStorage
+            console.log(jwtToken)
 
-    try {
-      const nonceResponse = await axios.post(`https://gintonic-backend-production.up.railway.app/api/users/get-nonce`, {
-        address: user.wallet.address,
-      });
-
-      if (nonceResponse.status !== 200 || !nonceResponse.data.nonce) {
-        throw new Error("Failed to fetch nonce for authentication.");
+          } else {
+            toast.error("Failed to generate token.");
+          }
+        } catch (error) {
+          console.error("Error generating token:", error);
+          toast.error("An error occurred while generating the token.");
+        }
       }
+    };
 
-      const message = nonceResponse.data.nonce;
-      let signature;
-      console.log("User wallet object:", user.wallet);
-      if ('embedded' in user.wallet) {
-        signature = await signMessage(message);
-      } else if (window.ethereum) {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        signature = await signer.signMessage(message);
-      } else {
-        throw new Error("No wallet available to sign the message.");
-      }
+    fetchToken();
+  }, [authenticated && userAddress]);
 
-      console.log("signature in header...........", signature);
-
-      const response = await axios.post(`https://gintonic-backend-production.up.railway.app/api/users/authenticate`, {
-        address: user.wallet.address,
-        signature: signature,
-      });
-
-      if (response.status === 200) {
-        toast.success("Successfully authenticated!");
-        setJwtToken(response.data.token);  // Store JWT token in context
-        localStorage.setItem("jwtToken", response.data.token); // Persist token in localStorage
-      } else {
-        toast.error("Authentication failed.");
-      }
-    } catch (error) {
-      console.error("Authentication error:", error);
-      toast.error("An error occurred during authentication.");
-    }
-  };
-
-  useEffect(() => {
-    if (authenticated && !jwtToken) {
-      authenticateUser();
-    }
-  }, [authenticated]);
-
+  
   const handleLogout = () => {
     logout();  // Call Privy's logout function
     setJwtToken(null);
@@ -153,7 +191,7 @@ export const Header: React.FC = () => {
     const registerUser = async () => {
       if (authenticated && userAddress) {
         try {
-          await axios.post(`https://gintonic-backend-production.up.railway.app/api/users/register`, {
+          await axios.post(`${config.BASE_URL}/api/users/register`, {
             address: userAddress,
           });
         } catch (error: any) {
