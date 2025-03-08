@@ -54,6 +54,7 @@ export default function AgentDetail() {
   const id = searchParams.get("id");
 
   const [activeTab, setActiveTab] = useState<string>("aiAgentChat");
+  const [activeTradeTab, setActiveTradeTab] = useState<"buy" | "sell">("buy");
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -436,6 +437,8 @@ export default function AgentDetail() {
     router.back();
   };
 
+
+
   return (
     <div className="min-h-screen bg-lightbg text-primary">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -809,35 +812,59 @@ export default function AgentDetail() {
           <div className="col-span-3 my-6">
 
 
-            <div className=" p-4 my-auto border border-primary/60 rounded-lg bg-lightbg">
-              <div className="flex justify-between mb-4">
-                <button className="text-primary border-b-2 border-primary">Buy</button>
-                <button className="text-primary">Sell</button>
+            <div className=" p-4 my-auto border border-primary/60 rounded-lg bg-lightbg mb-4">
+              <div className="flex justify-evenly mb-4">
+                <button
+                  className={`text-primary ${activeTradeTab === "buy" ? "border-b-2 border-primary" : ""}`}
+                  onClick={() => setActiveTradeTab("buy")}
+                >
+                  Buy
+                </button>
+                <button
+                  className={`text-primary ${activeTradeTab === "sell" ? "border-b-2 border-primary" : ""}`}
+                  onClick={() => setActiveTradeTab("sell")}
+                >
+                  Sell
+                </button>
               </div>
 
-              <h2 className="text-2xl font-bold text-primary">Buy minutes</h2>
-              <p className="text-lg text-primary">$0.53 <span className="text-green-500">+2.18%</span></p>
+              {activeTradeTab === "buy" ? (
+                <>
+                  <h2 className="text-2xl font-bold text-primary">Buy Tokens</h2>
+                  <p className="text-lg text-primary">$0.53 <span className="text-green-500">+2.18%</span></p>
+                  {/* Graph Placeholder */}
+                  <div className="h-32 bg-lightbg/20 border border-primary/60 rounded-md mb-4">
+                    <p className="text-center text-primary">Graph Placeholder</p>
+                  </div>
+                  {/* Input and other elements for buying tokens */}
+                </>
+              ) : (
+                <>
+                  <h2 className="text-2xl font-bold text-primary">Sell Tokens</h2>
+                  <p className="text-lg text-primary">$0.53 <span className="text-red-500">-2.18%</span></p>
+                  {/* Graph Placeholder */}
+                  <div className="h-32 bg-lightbg/20 border border-primary/60 rounded-md mb-4">
+                    <p className="text-center text-primary">Graph Placeholder</p>
+                  </div>
+                  {/* Input and other elements for selling tokens */}
+                </>
+              )}
 
-              {/* Graph Placeholder */}
-              <div className="h-32 bg-lightbg/20 border border-primary/60 rounded-md mb-4">
-                <p className="text-center text-gray-400">Graph Placeholder</p>
-              </div>
-
+              {/* Common elements for both Buy and Sell */}
               <div className="flex items-center mb-4">
                 <Input
                   type="number"
                   className="border border-primary/60 rounded-md p-2 flex-grow"
                 />
                 <select className="border bg-lightbg border-primary/60 rounded-md p-2 ml-2 outline-none">
-                  <option>Minutes</option>
                   <option>USD</option>
                 </select>
               </div>
 
               <div className="grid grid-cols-3 gap-2 mb-4">
-                <button className="bg-primary text-white rounded-md px-4 py-2">15 min</button>
-                <button className="bg-primary text-white rounded-md px-4 py-2">30 min</button>
-                <button className="bg-primary text-white rounded-md px-4 py-2">60 min</button>
+                <button className="bg-primary text-white rounded-md px-4 py-2">500</button>
+                <button className="bg-primary text-white rounded-md px-4 py-2">500</button>
+                <button className="bg-primary text-white rounded-md px-4 py-2">500</button>
               </div>
 
               <p className="text-sm text-gray-500">Available Balance: $0.00</p>
@@ -845,26 +872,67 @@ export default function AgentDetail() {
               {/* New Card UI */}
 
             </div>
-            <div className="mt-4 p-4 bg-lightbg border border-primary/60 rounded-lg">
-              <h2 className="text-xl font-bold text-primary">Market Overview</h2>
-              <div className="flex flex-col mt-2">
-                <div className="flex justify-between">
-                  <span className="text-sm text-primary">Market Cap:</span>
-                  <span className="text-sm text-primary">$21.83m</span>
+            <div className="p-4 bg-lightbg text-primary rounded-lg border border-primary/60 w-full max-w-md">
+              {/* Token Price */}
+              <h2 className="text-2xl font-bold">$0.020955</h2>
+
+              {/* Market Stats */}
+              <div className="grid grid-cols-2 gap-2 mt-2">
+                <div className="p-2 rounded-lg border border-primary/60">
+                  <span className="text-sm text-primary">Market Cap</span>
+                  <div className="text-lg font-bold">$21.02m</div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-primary">Liquidity:</span>
-                  <span className="text-sm text-primary">$4.33m</span>
+                <div className="p-3 rounded-lg border border-primary/60">
+                  <span className="text-sm text-primary">Liquidity</span>
+                  <div className="text-lg font-bold">$4.23m</div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-primary">Holders:</span>
-                  <span className="text-sm text-primary">266,647</span>
+                <div className="p-3 rounded-lg border border-primary/60">
+                  <span className="text-sm text-primary">Holders</span>
+                  <div className="text-lg font-bold">266,647</div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-primary">24h Volume:</span>
-                  <span className="text-sm text-primary">$491.49k</span>
+                <div className="p-3 rounded-lg border border-primary/60">
+                  <span className="text-sm text-primary">24h Volume</span>
+                  <div className="text-lg font-bold">$165.51k</div>
+                </div>
+                <div className="p-3 rounded-lg border border-primary/60 col-span-2">
+                  <span className="text-sm text-primary">Top 10</span>
+                  <div className="text-md font-bold">40.14%</div>
                 </div>
               </div>
+
+              {/* Price Changes */}
+
+
+              {/* Volume */}
+              <div className="mt-2">
+                <span className="text-sm text-primary">Volume</span>
+                <div className="text-lg font-bold">$165.51k</div>
+              </div>
+
+              {/* Transactions */}
+              <div className="grid grid-cols-2 gap-4 mt-2">
+                <div>
+                  <span className="text-sm text-primary">Txns</span>
+                  <div className="text-lg font-bold">545</div>
+                </div>
+                <div>
+                  <span className="text-sm text-primary">Makers</span>
+                  <div className="text-lg font-bold">345</div>
+                </div>
+              </div>
+
+              {/* Buy/Sell Bars */}
+
+              {/* <div className="mt-4">
+        <div className="flex justify-between text-sm text-primary">
+          <span>Buyers: 152</span>
+          <span>Sellers: 193</span>
+        </div>
+        <div className="w-full h-2 bg-gray-700 rounded-full mt-1 relative">
+          <div className="absolute left-0 h-2 bg-green-500 rounded-full" style={{ width: "44%" }}></div>
+          <div className="absolute right-0 h-2 bg-red-500 rounded-full" style={{ width: "56%" }}></div>
+        </div>
+      </div> */}
             </div>
           </div>
         </div>
