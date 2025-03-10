@@ -298,13 +298,13 @@ export const Header: React.FC = () => {
               {dropdownOpen && (
                 <div className="absolute z-10 right-0 border border-borderColor text-primary  shadow-lg rounded-md py-2 w-44">
                   <div
-                    className="px-4 py-2 text-sm text-primary hover:bg-[#ff7f50]/10 cursor-pointer"
+                    className="px-4 py-2 text-sm text-primary hover:bg-primary/10 cursor-pointer"
                     onClick={() => router.push("/myagents")}
                   >
                     My Agents
                   </div>
                   <div
-                    className="px-4 py-2 text-sm text-primary hover:bg-[#ff7f50]/10 cursor-pointer"
+                    className="px-4 py-2 text-sm text-primary hover:bg-primary/10 cursor-pointer"
                     onClick={handleDisconnectClick}
                   >
                     Disconnect
