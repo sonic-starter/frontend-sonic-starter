@@ -536,41 +536,37 @@ export default function AgentDetail() {
             <div className=' md:block mb-4 py-6 '>
               <div className='flex gap-8 border-b border-primary/60'>
                 <button
-                  className={`py-2 ${
-                    activeTab === 'aiAgentChat'
+                  className={`py-2 ${activeTab === 'aiAgentChat'
                       ? 'text-primary border-b-2 border-primary'
                       : 'text-primary'
-                  }`}
+                    }`}
                   onClick={() => handleTabChange('aiAgentChat')}
                 >
                   AI Agent Chat
                 </button>
                 <button
-                  className={`py-2 ${
-                    activeTab === 'information'
+                  className={`py-2 ${activeTab === 'information'
                       ? 'text-primary border-b-2 border-primary'
                       : 'text-primary'
-                  }`}
+                    }`}
                   onClick={() => handleTabChange('information')}
                 >
                   Information
                 </button>
                 <button
-                  className={`py-2 ${
-                    activeTab === 'trade'
+                  className={`py-2 ${activeTab === 'trade'
                       ? 'text-primary border-b-2 border-primary'
                       : 'text-primary'
-                  }`}
+                    }`}
                   onClick={() => handleTabChange('trade')}
                 >
                   Trade
                 </button>
                 <button
-                  className={`py-2 ${
-                    activeTab === 'graph'
+                  className={`py-2 ${activeTab === 'graph'
                       ? 'text-primary border-b-2 border-primary'
                       : 'text-primary'
-                  }`}
+                    }`}
                   onClick={() => handleTabChange('graph')}
                 >
                   Chart
@@ -618,11 +614,10 @@ export default function AgentDetail() {
                       {messages.map((message, index) => (
                         <div
                           key={index}
-                          className={`flex ${
-                            message.sender === 'user'
+                          className={`flex ${message.sender === 'user'
                               ? 'justify-end'
                               : 'justify-start'
-                          }`}
+                            }`}
                         >
                           {message.sender === 'user' ? (
                             <div className='flex items-start gap-2 mr-2'>
@@ -662,7 +657,7 @@ export default function AgentDetail() {
                                   <>
                                     <div className='flex items-center'>
                                       {message.text ===
-                                      'Insufficient GIN balance. You need at least 5 GIN tokens to chat.' ? (
+                                        'Insufficient GIN balance. You need at least 5 GIN tokens to chat.' ? (
                                         <div>
                                           <span
                                             className='text-primary underline underline-dashed cursor-pointer'
@@ -677,12 +672,11 @@ export default function AgentDetail() {
                                         <ReactMarkdown
                                           remarkPlugins={[remarkGfm]}
                                           rehypePlugins={[rehypeRaw]}
-                                          className={`text-primary prose prose-invert ${
-                                            loading &&
-                                            index === messages.length - 1
+                                          className={`text-primary prose prose-invert ${loading &&
+                                              index === messages.length - 1
                                               ? grayTextClass
                                               : ''
-                                          }`}
+                                            }`}
                                         >
                                           {message.text}
                                         </ReactMarkdown>
@@ -693,7 +687,7 @@ export default function AgentDetail() {
                                     </div>
                                     {/* Only hide the icons and timestamp for the currently loading message */}
                                     {!loading ||
-                                    index !== messages.length - 1 ? (
+                                      index !== messages.length - 1 ? (
                                       <div className='flex gap-2 mt-2 text-primary'>
                                         {copiedMessageIndex === index ? (
                                           <Check className='h-4 w-4' />
@@ -707,13 +701,13 @@ export default function AgentDetail() {
                                         )}
                                         {message.text !==
                                           'Insufficient GIN balance. You need at least 5 GIN tokens to chat.' && (
-                                          <RotateCcw
-                                            className='h-4 w-4 cursor-pointer'
-                                            onClick={() =>
-                                              handleRegenerateResponse(index)
-                                            }
-                                          />
-                                        )}
+                                            <RotateCcw
+                                              className='h-4 w-4 cursor-pointer'
+                                              onClick={() =>
+                                                handleRegenerateResponse(index)
+                                              }
+                                            />
+                                          )}
                                         <p className='text-xs text-primary'>
                                           {message.timestamp}
                                         </p>
@@ -741,17 +735,15 @@ export default function AgentDetail() {
                         onChange={(e) => setInputMessage(e.target.value)}
                         onKeyPress={!loading ? handleKeyPress : undefined}
                         disabled={!authenticated || loading}
-                        className={`flex-grow py-2 px-4 placeholder:text-primary border border-primary/60 bg-lightbg rounded-lg text-primary focus:border-primary focus:outline-none ${
-                          !authenticated ? 'opacity-60 ' : ''
-                        }`}
+                        className={`flex-grow py-2 px-4 placeholder:text-primary border border-primary/60 bg-lightbg rounded-lg text-primary focus:border-primary focus:outline-none ${!authenticated ? 'opacity-60 ' : ''
+                          }`}
                       />
                       <button
                         onClick={() => handleSendMessage(inputMessage)}
-                        className={`px-3 py-2 border border-primary/60 rounded-md ${
-                          !authenticated || loading
+                        className={`px-3 py-2 border border-primary/60 rounded-md ${!authenticated || loading
                             ? 'opacity-60 cursor-not-allowed'
                             : 'text-primary'
-                        }`}
+                          }`}
                         disabled={!authenticated || loading}
                       >
                         <Send />
@@ -972,87 +964,85 @@ export default function AgentDetail() {
             </div>
           </div>
           <div className='col-span-3 my-6'>
-          <div className='p-4 my-auto border border-primary/60 rounded-lg bg-lightbg mb-4'>
-      {/* Buy/Sell Tab Switch */}
-      <div className='grid grid-cols-2 mb-4 bg-primary/10 rounded-sm'>
-        <button
-          className={`text-primary ${
-            activeTradeTab === 'buy' ? 'border p-1 rounded-sm border-primary' : ''
-          }`}
-          onClick={() => setActiveTradeTab('buy')}
-        >
-          Buy
-        </button>
-        <button
-          className={`text-primary ${
-            activeTradeTab === 'sell' ? 'border p-1 rounded-sm border-primary' : ''
-          }`}
-          onClick={() => setActiveTradeTab('sell')}
-        >
-          Sell
-        </button>
-      </div>
+            <div className='p-4 my-auto border border-primary/60 rounded-lg bg-lightbg mb-4'>
+              {/* Buy/Sell Tab Switch */}
+              <div className='grid grid-cols-2 mb-4 bg-primary/10 rounded-sm'>
+                <button
+                  className={`text-primary ${activeTradeTab === 'buy' ? 'border p-1 rounded-sm border-primary' : ''
+                    }`}
+                  onClick={() => setActiveTradeTab('buy')}
+                >
+                  Buy
+                </button>
+                <button
+                  className={`text-primary ${activeTradeTab === 'sell' ? 'border p-1 rounded-sm border-primary' : ''
+                    }`}
+                  onClick={() => setActiveTradeTab('sell')}
+                >
+                  Sell
+                </button>
+              </div>
 
-      {/* Buy & Sell Content */}
-      {activeTradeTab === 'buy' ? (
-        <>
-          <h2 className='text-2xl font-bold text-primary'>Buy Tokens</h2>
-          <p className='text-lg text-primary'>
-            $0.53 <span className='text-green-500'>+2.18%</span>
-          </p>
-        </>
-      ) : (
-        <>
-          <h2 className='text-2xl font-bold text-primary'>Sell Tokens</h2>
-          <p className='text-lg text-primary'>
-            $0.53 <span className='text-red-500'>-2.18%</span>
-          </p>
-        </>
-      )}
+              {/* Buy & Sell Content */}
+              {activeTradeTab === 'buy' ? (
+                <>
+                  <h2 className='text-2xl font-bold text-primary'>Buy Tokens</h2>
+                  <p className='text-lg text-primary'>
+                    $0.53 <span className='text-green-500'>+2.18%</span>
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h2 className='text-2xl font-bold text-primary'>Sell Tokens</h2>
+                  <p className='text-lg text-primary'>
+                    $0.53 <span className='text-red-500'>-2.18%</span>
+                  </p>
+                </>
+              )}
 
-      {/* Graph Placeholder */}
-      <div className='h-32 bg-lightbg/20 border border-primary/60 rounded-md mb-4'>
-        <p className='text-center text-primary'>Graph Placeholder</p>
-      </div>
+              {/* Graph Placeholder */}
+              <div className='h-32 bg-lightbg/20 border border-primary/60 rounded-md mb-4'>
+                <p className='text-center text-primary'>Graph Placeholder</p>
+              </div>
 
-      {/* Input Field */}
-      <div className='flex items-center mb-4'>
-        <Input
-          type='number'
-         className='border border-primary/60 rounded-md p-2 flex-grow'
-          placeholder='Enter amount'
-          value={tradeAmount}
-          onChange={(e) => setTradeAmount(e.target.value)}
-        />
-      </div>
+              {/* Input Field */}
+              <div className='flex items-center mb-4'>
+                <Input
+                  type='number'
+                  className='border border-primary/60 rounded-md p-2 flex-grow'
+                  placeholder='Enter amount'
+                  value={tradeAmount}
+                  onChange={(e) => setTradeAmount(e.target.value)}
+                />
+              </div>
 
-      {/* Quick Amount Selection */}
-      <div className='grid grid-cols-3 gap-2 mb-4'>
-        {[700, 200, 500].map((amt) => (
-          <button
-            key={amt}
-            className='bg-primary/10 border border-primary/60 text-primary rounded-md px-4 py-2'
-            onClick={() => setTradeAmount(amt.toString())} // ✅ Convert number to string
-          >
-            {amt}
-          </button>
-        ))}
-      </div>
+              {/* Quick Amount Selection */}
+              <div className='grid grid-cols-3 gap-2 mb-4'>
+                {[700, 200, 500].map((amt) => (
+                  <button
+                    key={amt}
+                    className='bg-primary/10 border border-primary/60 text-primary rounded-md px-4 py-2'
+                    onClick={() => setTradeAmount(amt.toString())} // ✅ Convert number to string
+                  >
+                    {amt}
+                  </button>
+                ))}
+              </div>
 
-      {/* Available Balance */}
-      <p className='text-sm text-gray-500 mb-4'>Available Balance: $0.00</p>
+              {/* Available Balance */}
+              <p className='text-sm text-gray-500 mb-4'>Available Balance: $0.00</p>
 
-      {/* Buy or Sell Button (Only one displayed at a time) */}
-      {activeTradeTab === 'buy' ? (
-        <button className='bg-primary text-white rounded-md px-4 py-2 w-full'>
-          Buy
-        </button>
-      ) : (
-        <button className='bg-primary text-white rounded-md px-4 py-2 w-full'>
-          Sell
-        </button>
-      )}
-    </div>
+              {/* Buy or Sell Button (Only one displayed at a time) */}
+              {activeTradeTab === 'buy' ? (
+                <button className='bg-primary text-white rounded-md px-4 py-2 w-full'>
+                  Buy
+                </button>
+              ) : (
+                <button className='bg-primary text-white rounded-md px-4 py-2 w-full'>
+                  Sell
+                </button>
+              )}
+            </div>
 
             <div className='p-4 bg-lightbg text-primary rounded-lg border border-primary/60 w-full'>
               {/* Token Price */}
