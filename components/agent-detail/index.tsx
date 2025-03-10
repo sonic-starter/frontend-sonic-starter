@@ -642,7 +642,7 @@ export default function AgentDetail() {
                 >
                   Information
                 </button>
-                <button
+                {/* <button
                   className={`py-2 ${
                     activeTab === 'trade'
                       ? 'text-primary border-b-2 border-primary'
@@ -651,7 +651,7 @@ export default function AgentDetail() {
                   onClick={() => handleTabChange('trade')}
                 >
                   Trade
-                </button>
+                </button> */}
                 <button
                   className={`py-2 ${
                     activeTab === 'graph'
@@ -999,7 +999,7 @@ export default function AgentDetail() {
               )}
 
               {/* Trade Section */}
-              {activeTab === 'trade' && (
+              {/* {activeTab === 'trade' && (
                 <div className='md:col-span-8 h-full p-4 border border-primary/60 text-primary rounded-lg'>
                   <h2 className='text-2xl font-bold text-left'>
                     Token Trading
@@ -1046,7 +1046,7 @@ export default function AgentDetail() {
                     </div>
                   </div>
                 </div>
-              )}
+              )} */}
 
               {activeTab === 'graph' && (
                 <>
@@ -1096,9 +1096,9 @@ export default function AgentDetail() {
               )}
 
               {/* Graph Placeholder */}
-              <div className='h-32 bg-lightbg/20 border border-primary/60 rounded-md mb-4'>
+              {/* <div className='h-32 bg-lightbg/20 border border-primary/60 rounded-md mb-4'>
                 <p className='text-center text-primary'>Graph Placeholder</p>
-              </div>
+              </div> */}
 
               {/* Input Field */}
               <div className='flex items-center mb-4'>
