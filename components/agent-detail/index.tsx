@@ -251,6 +251,8 @@ export default function AgentDetail() {
     }
   }, [messages]);
 
+
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (loading) {
@@ -488,7 +490,7 @@ export default function AgentDetail() {
       const signer = provider.getSigner();
 
       // Create a contract instance
-      const contract = new ethers.Contract("0x5Abeb561D7B14d8b337A8537c65AaCEa53682d12", abi_token_bonding_curve, signer);
+      const contract = new ethers.Contract(agentDetails.tokenAddress, abi_token_bonding_curve, signer);
 
       // Call the buy function
       const tx = await contract.buy(tradeAmount,100, {
@@ -521,7 +523,24 @@ export default function AgentDetail() {
       const signer = provider.getSigner();
 
       // Create a contract instance
-      const contract = new ethers.Contract("0x5Abeb561D7B14d8b337A8537c65AaCEa53682d12", abi_token_bonding_curve, signer);
+      const contract = new ethers.Contract(agentDetails.tokenAddress, abi_token_bonding_curve, signer);
+
+        // Get user's token balance
+    const balance = await contract.balanceOf(userAddress);
+
+ 
+    
+    // Convert balance from BigNumber to a readable format
+    const balanceFormatted = ethers.utils.formatUnits(balance, 18); // Adjust decimals if needed
+
+    console.log("User Token Balance:", balanceFormatted);
+
+    if (parseFloat(balanceFormatted) <= 0) {
+      console.error("Insufficient token balance to sell.");
+      alert("You do not have enough tokens to sell.");
+      return;
+    }
+
 
       // Convert the trade amount to an integer
       const amount = parseInt(tradeAmount, 10);

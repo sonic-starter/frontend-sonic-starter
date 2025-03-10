@@ -237,8 +237,8 @@ export const Header: React.FC = () => {
       <header className="flex items-center justify-between mx-auto py-6 max-w-8xl">
         <div className="flex items-center gap-4">
 
-          <Link href="/" className="cursor-pointer">
-            {/* <Image src="/images/logo.svg" alt="Gintonic" width={107} height={35} /> */}
+          <Link href="/" className="cursor-pointer flex gap-2 items-center">
+            <Image src="/images/brain.png" alt="Gintonic" width={50} height={50} />
             <h1 className="text-2xl font-bold text-primary">Sonic Starter</h1>
           </Link>
 

@@ -398,6 +398,8 @@ export default function CreateAgent({ agentId }: any) {
       // Generate a random unique projectId
       const projectId = ethers.utils.formatBytes32String(generateRandomUniqueString());
 
+
+
       // Call the deployContract function with addresses
       const tx = await contract.deployContract(
         projectId, // Use projectId
@@ -420,6 +422,12 @@ export default function CreateAgent({ agentId }: any) {
       const contractAddress = receipt.contractAddress; // Assuming the contract address is returned here
       console.log('Contract function executed, contract address:', contractAddress);
 
+    
+      // await new Promise(resolve => setTimeout(resolve, 5000));
+
+      const tokenAddress = await contract.deployedContracts(projectId);
+      
+      console.log("Token Address:.......................", tokenAddress);
       // Proceed with agent creation
       let avatarUrl = "";
 
@@ -443,7 +451,7 @@ export default function CreateAgent({ agentId }: any) {
           userAddress: walletAddress,
           categories: selectedFunction,
           tokenName: tokenDetails.name,
-          tokenAddress: contractAddress, // deployed contract address
+          tokenAddress: tokenAddress, // deployed contract address
           totalSupply: tokenDetails.supply,
           tokenSymbol: tokenDetails.symbol,
           model: "gpt-4",
