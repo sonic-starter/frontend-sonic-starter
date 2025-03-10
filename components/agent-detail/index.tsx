@@ -506,15 +506,14 @@ export default function AgentDetail() {
                     <h2 className='text-2xl font-bold '>{agentDetails.name}</h2>
                     <p className='text-md '>{agentDetails.instructions}</p>
 
-                    <div className='flex gap-4 mt-3'>
+                    {/* <div className='flex gap-4 mt-3'>
                       <button className=' border border-primary/60 hover:bg-primary/10 hover:text-primary  px-4 py-2 rounded-md flex items-center gap-2'>
-                        {/* <UserCheck /> Follow */}
                         Buy
                       </button>
                       <button className='border border-primary/60 hover:bg-primary/10 hover:text-primary  px-4 py-2 rounded-md flex items-center gap-2'>
                         Sell
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
 
