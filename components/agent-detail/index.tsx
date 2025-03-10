@@ -1051,7 +1051,7 @@ export default function AgentDetail() {
                 </button>
               )}
             </div>
-            <div className='p-4 bg-lightbg text-primary rounded-lg border border-primary/60 w-full max-w-md'>
+            <div className='p-4 bg-lightbg text-primary rounded-lg border border-primary/60 w-full'>
               {/* Token Price */}
               <h2 className='text-2xl font-bold'>$0.020955</h2>
 
