@@ -28,6 +28,8 @@ import Modal from '../Modal';
 import { useAuth } from '@/contexts/AuthContext';
 import { Input } from '../ui/input';
 import AgentGraph from './AgentGraph/AgentGraph';
+import abi_token_bonding_curve from "@/config/abi_Bonding_curve.json";
+
 
 // Add a CSS class for gray text
 const grayTextClass = 'text-gray-500';
@@ -65,7 +67,7 @@ export default function AgentDetail() {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingText, setLoadingText] = useState<string>('Generating response');
   const [balance, setBalance] = useState<string>('0');
-
+  
   const [agentDetails, setAgentDetails] = useState<Agent | null>(null);
   const chatBoxRef = useRef<HTMLDivElement | null>(null);
 
@@ -473,6 +475,72 @@ export default function AgentDetail() {
     router.back();
   };
 
+  // Function to handle the buy action
+  const handleBuy = async () => {
+    try {
+      // Request account access if needed
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+      // Create a provider
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+      // Get the signer
+      const signer = provider.getSigner();
+
+      // Create a contract instance
+      const contract = new ethers.Contract("0x5Abeb561D7B14d8b337A8537c65AaCEa53682d12", abi_token_bonding_curve, signer);
+
+      // Call the buy function
+      const tx = await contract.buy(tradeAmount,100, {
+        value: ethers.utils.parseEther(tradeAmount.toString() ),
+        // gasPrice: ethers.utils.parseUnits(gas, 9),
+      });
+
+      console.log("Transaction sent:", tx.hash);
+
+      // Wait for the transaction to be mined
+      const receipt = await tx.wait();
+      console.log("Transaction mined:", receipt);
+    } catch (error) {
+      console.error('Error during buy transaction:', error);
+    }
+  };
+
+  const price = "0.1"; // Example Ether value to send
+  const gas = "20"; // Example gas price in gwei
+
+  const handleSell = async () => {
+    try {
+      // Request account access if needed
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+      // Create a provider
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+      // Get the signer
+      const signer = provider.getSigner();
+
+      // Create a contract instance
+      const contract = new ethers.Contract("0x5Abeb561D7B14d8b337A8537c65AaCEa53682d12", abi_token_bonding_curve, signer);
+
+      // Convert the trade amount to an integer
+      const amount = parseInt(tradeAmount, 10);
+
+    const tx = await contract.sell(tradeAmount, {
+        // value: ethers.utils.parseEther(tradeAmount.toString() ),
+        // gasPrice: ethers.utils.parseUnits(gas, 9),
+      });
+
+      console.log("Transaction sent:", tx.hash);
+
+      // Wait for the transaction to be mined
+      const receipt = await tx.wait();
+      console.log("Transaction mined:", receipt);
+    } catch (error) {
+      console.error('Error during sell transaction:', error);
+    }
+  };
+
   return (
     <div className='min-h-screen bg-lightbg text-primary'>
       <div className='max-w-8xl mx-auto px-4 sm:px-6 lg:px-8'>
@@ -506,14 +574,15 @@ export default function AgentDetail() {
                     <h2 className='text-2xl font-bold '>{agentDetails.name}</h2>
                     <p className='text-md '>{agentDetails.instructions}</p>
 
-                    {/* <div className='flex gap-4 mt-3'>
+                    <div className='flex gap-4 mt-3'>
                       <button className=' border border-primary/60 hover:bg-primary/10 hover:text-primary  px-4 py-2 rounded-md flex items-center gap-2'>
+                        {/* <UserCheck /> Follow */}
                         Buy
                       </button>
                       <button className='border border-primary/60 hover:bg-primary/10 hover:text-primary  px-4 py-2 rounded-md flex items-center gap-2'>
                         Sell
                       </button>
-                    </div> */}
+                    </div>
                   </div>
                 </div>
 
@@ -1037,17 +1106,25 @@ export default function AgentDetail() {
               </div>
 
               {/* Available Balance */}
-              <p className='text-sm text-gray-500 mb-4'>Available Balance: $0.00</p>
+              {/* <p className='text-sm text-gray-500 mb-4'>Available Balance: $0.00</p> */}
 
               {/* Buy or Sell Button (Only one displayed at a time) */}
               {activeTradeTab === 'buy' ? (
-                <button className='bg-primary text-white rounded-md px-4 py-2 w-full'>
-                  Buy
-                </button>
+                <Button
+                  className="w-full mt-4 border border-primary/60 text-primary hover:bg-primary/20"
+                  onClick={handleBuy}
+                  disabled={loading}
+                >
+                  {loading ? "Processing..." : "Buy"}
+                </Button>
               ) : (
-                <button className='bg-primary text-white rounded-md px-4 py-2 w-full'>
-                  Sell
-                </button>
+                <Button
+                  className="w-full mt-4 border border-primary/60 text-primary hover:bg-primary/20"
+                  onClick={handleSell}
+                  disabled={loading}
+                >
+                  {loading ? "Processing..." : "Sell"}
+                </Button>
               )}
             </div>
             <div className='p-4 bg-lightbg text-primary rounded-lg border border-primary/60 w-full'>
