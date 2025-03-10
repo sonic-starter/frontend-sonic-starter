@@ -76,6 +76,8 @@ export default function AgentDetail() {
     null
   );
 
+  const [tradeAmount, setTradeAmount] = useState<string>('');
+
   const { jwtToken } = useAuth();
 
   const router = useRouter();
@@ -970,92 +972,89 @@ export default function AgentDetail() {
             </div>
           </div>
           <div className='col-span-3 my-6'>
-            <div className=' p-4 my-auto border border-primary/60 rounded-lg bg-lightbg mb-4'>
-              <div className='grid grid-cols-2 mb-4 bg-primary/10 rounded-sm'>
-                <button
-                  className={`text-primary ${
-                    activeTradeTab === 'buy'
-                      ? 'border p-1 rounded-sm border-primary'
-                      : ''
-                  }`}
-                  onClick={() => setActiveTradeTab('buy')}
-                >
-                  Buy
-                </button>
-                <button
-                  className={`text-primary ${
-                    activeTradeTab === 'sell'
-                      ? 'border p-1 rounded-sm border-primary'
-                      : ''
-                  }`}
-                  onClick={() => setActiveTradeTab('sell')}
-                >
-                  Sell
-                </button>
-              </div>
+          <div className='p-4 my-auto border border-primary/60 rounded-lg bg-lightbg mb-4'>
+      {/* Buy/Sell Tab Switch */}
+      <div className='grid grid-cols-2 mb-4 bg-primary/10 rounded-sm'>
+        <button
+          className={`text-primary ${
+            activeTradeTab === 'buy' ? 'border p-1 rounded-sm border-primary' : ''
+          }`}
+          onClick={() => setActiveTradeTab('buy')}
+        >
+          Buy
+        </button>
+        <button
+          className={`text-primary ${
+            activeTradeTab === 'sell' ? 'border p-1 rounded-sm border-primary' : ''
+          }`}
+          onClick={() => setActiveTradeTab('sell')}
+        >
+          Sell
+        </button>
+      </div>
 
-              {activeTradeTab === 'buy' ? (
-                <>
-                  <h2 className='text-2xl font-bold text-primary'>
-                    Buy Tokens
-                  </h2>
-                  <p className='text-lg text-primary'>
-                    $0.53 <span className='text-green-500'>+2.18%</span>
-                  </p>
-                  {/* Graph Placeholder */}
-                  <div className='h-32 bg-lightbg/20 border border-primary/60 rounded-md mb-4'>
-                    <p className='text-center text-primary'>
-                      Graph Placeholder
-                    </p>
-                  </div>
-                  {/* Input and other elements for buying tokens */}
-                </>
-              ) : (
-                <>
-                  <h2 className='text-2xl font-bold text-primary'>
-                    Sell Tokens
-                  </h2>
-                  <p className='text-lg text-primary'>
-                    $0.53 <span className='text-red-500'>-2.18%</span>
-                  </p>
-                  {/* Graph Placeholder */}
-                  <div className='h-32 bg-lightbg/20 border border-primary/60 rounded-md mb-4'>
-                    <p className='text-center text-primary'>
-                      Graph Placeholder
-                    </p>
-                  </div>
-                  {/* Input and other elements for selling tokens */}
-                </>
-              )}
+      {/* Buy & Sell Content */}
+      {activeTradeTab === 'buy' ? (
+        <>
+          <h2 className='text-2xl font-bold text-primary'>Buy Tokens</h2>
+          <p className='text-lg text-primary'>
+            $0.53 <span className='text-green-500'>+2.18%</span>
+          </p>
+        </>
+      ) : (
+        <>
+          <h2 className='text-2xl font-bold text-primary'>Sell Tokens</h2>
+          <p className='text-lg text-primary'>
+            $0.53 <span className='text-red-500'>-2.18%</span>
+          </p>
+        </>
+      )}
 
-              {/* Common elements for both Buy and Sell */}
-              <div className='flex items-center mb-4'>
-                <Input
-                  type='number'
-                  className='border border-primary/60 rounded-md p-2 flex-grow'
-                />
-                <select className='border bg-lightbg border-primary/60 rounded-md p-2 ml-2 outline-none'>
-                  <option>USD</option>
-                </select>
-              </div>
+      {/* Graph Placeholder */}
+      <div className='h-32 bg-lightbg/20 border border-primary/60 rounded-md mb-4'>
+        <p className='text-center text-primary'>Graph Placeholder</p>
+      </div>
 
-              <div className='grid grid-cols-3 gap-2 mb-4'>
-                <button className='bg-primary text-white rounded-md px-4 py-2'>
-                  500
-                </button>
-                <button className='bg-primary text-white rounded-md px-4 py-2'>
-                  500
-                </button>
-                <button className='bg-primary text-white rounded-md px-4 py-2'>
-                  500
-                </button>
-              </div>
+      {/* Input Field */}
+      <div className='flex items-center mb-4'>
+        <Input
+          type='number'
+         className='border border-primary/60 rounded-md p-2 flex-grow'
+          placeholder='Enter amount'
+          value={tradeAmount}
+          onChange={(e) => setTradeAmount(e.target.value)}
+        />
+      </div>
 
-              <p className='text-sm text-gray-500'>Available Balance: $0.00</p>
+      {/* Quick Amount Selection */}
+      <div className='grid grid-cols-3 gap-2 mb-4'>
+        {[700, 200, 500].map((amt) => (
+          <button
+            key={amt}
+            className='bg-primary/10 border border-primary/60 text-primary rounded-md px-4 py-2'
+            onClick={() => setTradeAmount(amt.toString())} // ✅ Convert number to string
+          >
+            {amt}
+          </button>
+        ))}
+      </div>
 
-              {/* New Card UI */}
-            </div>
-            <div className='p-4 bg-lightbg text-primary rounded-lg border border-primary/60 w-full max-w-md'>
+      {/* Available Balance */}
+      <p className='text-sm text-gray-500 mb-4'>Available Balance: $0.00</p>
+
+      {/* Buy or Sell Button (Only one displayed at a time) */}
+      {activeTradeTab === 'buy' ? (
+        <button className='bg-primary text-white rounded-md px-4 py-2 w-full'>
+          Buy
+        </button>
+      ) : (
+        <button className='bg-primary text-white rounded-md px-4 py-2 w-full'>
+          Sell
+        </button>
+      )}
+    </div>
+
+            <div className='p-4 bg-lightbg text-primary rounded-lg border border-primary/60 w-full'>
               {/* Token Price */}
               <h2 className='text-2xl font-bold'>$0.020955</h2>
 
