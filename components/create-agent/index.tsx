@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useContext, useRef, useEffect, useMemo } from "react";
-import { ArrowLeft, Plus, Upload, UploadIcon } from "lucide-react";
+import { ArrowLeft, Plus, Upload, UploadIcon, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -484,10 +484,10 @@ export default function CreateAgent({ agentId }: any) {
  
 
   return (
-    <div className="min-h-screen bg-lightbg text-primary">
+    <div className="min-h-screen bg-gradient-to-br from-darkStart to-darkEnd text-primary">
       {loading && (
         <div className=" inset-0 flex justify-center items-center bg-opacity-50 bg-black z-50 mt-24">
-          <div className="w-16 h-16 border-t-4 border-b-4 border-primary border-solid rounded-full animate-spin"></div>
+          <div className="w-16 h-16 border-t-4 border-b-4 border-borderColor border-solid rounded-full animate-spin"></div>
         </div>
       )}
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -507,10 +507,10 @@ export default function CreateAgent({ agentId }: any) {
         <div className="py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Left Side - Agent Details */}
           <div className="space-y-6">
-            {/* <Card className="p-6  border border-primary/60 backdrop-blur">
+            {/* <Card className="p-6  border border-borderColor/60 backdrop-blur">
               <h2 className="text-lg font-semibold text-primary mb-4">Upload your ABI</h2>
               <textarea
-              className="flex w-full my-2 placeholder:text-primary bg-lightbg  border border-primary/60 rounded-lg px-4 py-2 text-primary focus:border-primary focus:outline-none overflow-y-auto scrollbar"
+              className="flex w-full my-2 placeholder:text-primary bg-gradient-to-br from-darkStart to-darkEnd  border border-borderColor/60 rounded-lg px-4 py-2 text-primary focus:border-borderColor focus:outline-none overflow-y-auto scrollbar"
                 placeholder="Enter your ABI here"
                 value={formData.abi}
                 onChange={(e) => handleChange("abi", e.target.value)}
@@ -525,7 +525,7 @@ export default function CreateAgent({ agentId }: any) {
 
             </Card> */}
 
-            <Card className="p-6 border border-primary/60 backdrop-blur">
+            <Card className="p-6 border border-borderColor/60 backdrop-blur">
               <h2 className="text-lg font-semibold text-primary mb-4">Agent Details</h2>
               <Label className="mt-4 text-md text-primary ">Agent Name</Label>
               <Input
@@ -547,7 +547,7 @@ export default function CreateAgent({ agentId }: any) {
               <select
                 value={formData.llmProvider}
                 onChange={(e) => handleChange("llmProvider", e.target.value)}
-                className="block w-full rounded-md mt-2 text-primary bg-lightbg border border-primary/60  px-3 py-2 outline-none"
+                className="block w-full rounded-md mt-2 text-primary bg-gradient-to-br from-darkStart to-darkEnd border border-borderColor/60  px-3 py-2 outline-none"
               >
                 <option value="" className="text-primary">Select Provider</option>
                 {Object.keys(llmProviders).map((provider) => (
@@ -562,7 +562,7 @@ export default function CreateAgent({ agentId }: any) {
               <select
                 value={formData.llmModel}
                 onChange={(e) => handleChange("llmModel", e.target.value)}
-                className="block w-full rounded-md mt-2 bg-lightbg border border-primary/60 text-primary px-3 py-2 outline-none"
+                className="block w-full rounded-md mt-2 bg-gradient-to-br from-darkStart to-darkEnd border border-borderColor/60 text-primary px-3 py-2 outline-none"
                 disabled={!formData.llmProvider} // Disable if no provider is selected
               >
                 <option value="">Select Model</option>
@@ -586,7 +586,7 @@ export default function CreateAgent({ agentId }: any) {
               )}
             </Card>
 
-            <Card className="p-6 text-primary border border-primary/60 backdrop-blur">
+            <Card className="p-6 text-primary border border-borderColor/60 backdrop-blur">
               <h2 className=" text-xl mb-6 flex items-center gap-2">
                 <Settings className="w-5 h-5" />
                 Agent Functions
@@ -596,7 +596,7 @@ export default function CreateAgent({ agentId }: any) {
                   <Button
                     key={index}
                     variant="outline"
-                    className={`bg-lightbg border border-primary/60 text-primary hover:bg-primary/20 hover:text-primary  justify-start ${selectedFunction.includes(func.label) ? 'bg-primary/20' : ''}`}
+                    className={`bg-gradient-to-br from-darkStart to-darkEnd border border-borderColor/60 text-primary hover:bg-primary/20 hover:text-primary  justify-start ${selectedFunction.includes(func.label) ? 'bg-primary/20' : ''}`}
                     onClick={() => handleFunctionSelect(func)}
                   >
                     <func.icon className="w-4 h-4 mr-2" />
@@ -610,7 +610,7 @@ export default function CreateAgent({ agentId }: any) {
             </Card>
 
 
-            <Card className="p-6 border border-primary/60 backdrop-blur">
+            <Card className="p-6 border border-borderColor/60 backdrop-blur">
               <h2 className="text-lg font-semibold text-primary mb-4">Token Configuration</h2>
               <Label className="mt-4 text-md text-primary ">Token Name</Label>
               <Input
@@ -645,11 +645,11 @@ export default function CreateAgent({ agentId }: any) {
           {/* Right Side - Agent Preview and Token Preview */}
           <div className="space-y-6">
             {/* Agent Preview */}
-            <Card className="p-6 text-primary border border-primary/60 backdrop-blur">
+            <Card className="p-6 text-primary border border-borderColor/60 backdrop-blur">
               <h2 className="text-xl mb-6 flex items-center gap-2">
                 <Bot className="w-5 h-5" /> Agent Preview
               </h2>
-              <div className=" p-4 rounded-lg border border-primary/60">
+              <div className=" p-4 rounded-lg border border-borderColor/60">
                 <div className="flex items-start gap-4">
                   <Bot className="w-12 h-12 text-primary" />
                   <div>
@@ -665,12 +665,12 @@ export default function CreateAgent({ agentId }: any) {
             </Card>
 
             {/* Token Preview */}
-            <Card className="p-6 text-primary border border-primary/60 backdrop-blur">
+            <Card className="p-6 text-primary border border-borderColor/60 backdrop-blur">
               <h2 className="text-xl mb-6 flex items-center gap-2">
                 <Cloud className="w-5 h-5" /> Token Preview
               </h2>
               <div className="space-y-4">
-                <div className="flex justify-between items-center p-4 rounded-lg border border-primary/60">
+                <div className="flex justify-between items-center p-4 rounded-lg border border-borderColor/60">
                   <span className="text-primary">Token Name: {tokenDetails.name || "Token Name"}</span>
                   <span className="text-primary">Symbol: {tokenDetails.symbol || "SYMBOL"}</span>
                 </div>
@@ -678,7 +678,7 @@ export default function CreateAgent({ agentId }: any) {
                   <label className=" text-sm mb-2 block">Total Supply: {tokenDetails.supply || "0"}</label>
                   <Input
                     placeholder="Enter supply amount"
-                    className=" border-primary/60 text-primary placeholder:text-primary/50"
+                    className=" border-borderColor/60 text-primary placeholder:text-primary/50"
                     value={tokenDetails.supply}
                     onChange={(e) => setTokenDetails({ ...tokenDetails, supply: e.target.value })}
                   />
@@ -696,7 +696,7 @@ export default function CreateAgent({ agentId }: any) {
 
               {agentId ? (
                 <Button
-                  className="w-full mt-4 border border-primary/60 text-primary hover:bg-primary/20 flex gap-1"
+                  className="w-full mt-4 border border-borderColor/60 text-primary hover:bg-primary/20 flex gap-1"
                   onClick={handleUpdate} // Function to handle the update action
                   disabled={loading} // Disable the button while loading
                 >
@@ -704,7 +704,7 @@ export default function CreateAgent({ agentId }: any) {
                 </Button>
               ) : authenticated ? (
                 <Button
-                  className="w-full mt-4 border border-primary/60 text-primary hover:bg-primary/20 "
+                  className="w-full mt-4 border border-borderColor/60 text-primary hover:bg-primary/20 "
                   onClick={handleCreate}
                   disabled={loading}
                 >
@@ -712,10 +712,10 @@ export default function CreateAgent({ agentId }: any) {
                 </Button>
               ) : (
                 <Button
-                  className="w-full bg-primary mt-4 text-black flex gap-1"
+                  className="w-full border border-borderColor text-primary mt-4 flex gap-1"
                   onClick={login}
                 >
-                  <Image src="/images/connect.svg" alt="connect" width={22} height={16} />
+                  <Wallet/>
                   Connect MetaMask
                 </Button>
               )}

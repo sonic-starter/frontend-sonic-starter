@@ -16,14 +16,14 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
         <Input
           type="search"
           placeholder="Search agents..."
-          className="w-full pl-12 py-2  border border-primary text-primary text-lg"
+          className="w-full pl-12 py-2  border border-borderColor text-primary text-lg"
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
       </div>
       <div className="flex gap-2 ">
         <select
-          className="block rounded-md mt-2 bg-lightbg border border-primary text-primary px-3 py-2 outline-none"
+          className="block rounded-md mt-2 bg-gradient-to-br from-darkStart to-darkEnd border border-borderColor text-primary px-3 py-2 outline-none"
         >
           <option value="">Sort by Marketcap</option>
           <option >Sort by Name</option>
@@ -31,7 +31,7 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
         </select>
 
         <select
-          className="block rounded-md mt-2 bg-lightbg border border-primary text-primary pl-3 py-2 outline-none"
+          className="block rounded-md mt-2 bg-gradient-to-br from-darkStart to-darkEnd border border-borderColor text-primary pl-3 py-2 outline-none"
         >
           <option value="" >All Price</option>
           <option >1000 - 5000</option>

@@ -20,6 +20,8 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
+        darkStart: "#181818",
+        darkEnd: "#282828",
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -32,7 +34,7 @@ const config: Config = {
         },
         primary: {
           // DEFAULT: '#865622',
-          DEFAULT: '#ea550a',
+          DEFAULT: '#FFFFFF',
 
           foreground: 'hsl(var(--primary-foreground))',
         },
@@ -55,7 +57,7 @@ const config: Config = {
         
         lightbg: '#FFFFFF',
         orangePrimary: '#d1561e',
-        borderColor: '#323134',
+        borderColor: '#6B7280',
         cardBg: '#241f1c',
         // border: 'hsl(var(--border))',
         border: '#1E1E1E',

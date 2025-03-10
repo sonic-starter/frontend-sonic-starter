@@ -267,13 +267,13 @@ export default function AgentDetail() {
   // Ensure the loader is visible and properly styled
   const loader = (
     // <span className="loader ml-1 inline-block"></span
-    <div className='w-4 h-4 border-t-2 border-b-2 border-primary ml-2 border-solid rounded-full animate-spin'></div>
+    <div className='w-4 h-4 border-t-2 border-b-2 border-borderColor ml-2 border-solid rounded-full animate-spin'></div>
   );
 
   if (!agentDetails) {
     return (
-      <div className='absolute inset-0 flex justify-center items-center bg-lightbg  z-50 mt-24'>
-        <div className='w-16 h-16 border-t-4 border-b-4 border-primary border-solid rounded-full animate-spin'></div>
+      <div className='absolute inset-0 flex justify-center items-center bg-gradient-to-br from-darkStart to-darkEnd  z-50 mt-24'>
+        <div className='w-16 h-16 border-t-4 border-b-4 border-borderColor border-solid rounded-full animate-spin'></div>
       </div>
     );
   }
@@ -474,7 +474,7 @@ export default function AgentDetail() {
   };
 
   return (
-    <div className='min-h-screen bg-lightbg text-primary'>
+    <div className='min-h-screen bg-gradient-to-br from-darkStart to-darkEnd text-primary'>
       <div className='max-w-8xl mx-auto px-4 sm:px-6 lg:px-8'>
         {/* Header */}
         <Header />
@@ -489,7 +489,7 @@ export default function AgentDetail() {
           <div className='col-span-8'>
             <div ref={infoRef} className='md:col-span-3 space-y-6 rounded-md'>
               {/* Agent Detail */}
-              <div className=' border flex justify-between border-primary/60 text-primary p-5 mt-6 rounded-lg'>
+              <div className=' border flex justify-between border-borderColor/60 text-primary p-5 mt-6 rounded-lg'>
                 {/* Agent Image */}
                 <div className='flex gap-2 items-center'>
                   <Image
@@ -507,11 +507,11 @@ export default function AgentDetail() {
                     <p className='text-md '>{agentDetails.instructions}</p>
 
                     <div className='flex gap-4 mt-3'>
-                      <button className=' border border-primary/60 hover:bg-primary/10 hover:text-primary  px-4 py-2 rounded-md flex items-center gap-2'>
+                      <button className=' border border-borderColor/60 hover:bg-primary/10 hover:text-primary  px-4 py-2 rounded-md flex items-center gap-2'>
                         {/* <UserCheck /> Follow */}
                         Buy
                       </button>
-                      <button className='border border-primary/60 hover:bg-primary/10 hover:text-primary  px-4 py-2 rounded-md flex items-center gap-2'>
+                      <button className='border border-borderColor/60 hover:bg-primary/10 hover:text-primary  px-4 py-2 rounded-md flex items-center gap-2'>
                         Sell
                       </button>
                     </div>
@@ -534,10 +534,10 @@ export default function AgentDetail() {
 
             {/* Desktop Tabs */}
             <div className=' md:block mb-4 py-6 '>
-              <div className='flex gap-8 border-b border-primary/60'>
+              <div className='flex gap-8 border-b border-borderColor/60'>
                 <button
                   className={`py-2 ${activeTab === 'aiAgentChat'
-                      ? 'text-primary border-b-2 border-primary'
+                      ? 'text-primary border-b-2 border-borderColor'
                       : 'text-primary'
                     }`}
                   onClick={() => handleTabChange('aiAgentChat')}
@@ -546,7 +546,7 @@ export default function AgentDetail() {
                 </button>
                 <button
                   className={`py-2 ${activeTab === 'information'
-                      ? 'text-primary border-b-2 border-primary'
+                      ? 'text-primary border-b-2 border-borderColor'
                       : 'text-primary'
                     }`}
                   onClick={() => handleTabChange('information')}
@@ -555,7 +555,7 @@ export default function AgentDetail() {
                 </button>
                 <button
                   className={`py-2 ${activeTab === 'trade'
-                      ? 'text-primary border-b-2 border-primary'
+                      ? 'text-primary border-b-2 border-borderColor'
                       : 'text-primary'
                     }`}
                   onClick={() => handleTabChange('trade')}
@@ -564,7 +564,7 @@ export default function AgentDetail() {
                 </button>
                 <button
                   className={`py-2 ${activeTab === 'graph'
-                      ? 'text-primary border-b-2 border-primary'
+                      ? 'text-primary border-b-2 border-borderColor'
                       : 'text-primary'
                     }`}
                   onClick={() => handleTabChange('graph')}
@@ -578,9 +578,9 @@ export default function AgentDetail() {
               {/* Chat Section */}
               {activeTab === 'aiAgentChat' && (
                 <div ref={chatRef} className='md:col-span-8 h-full '>
-                  <div className='rounded-lg border border-primary/60 text-primary  flex flex-col relative h-full'>
+                  <div className='rounded-lg border border-borderColor/60 text-primary  flex flex-col relative h-full'>
                     {/* Chat Header */}
-                    <div className='flex justify-between mb-1 text-primary border-b border-primary/60 p-3'>
+                    <div className='flex justify-between mb-1 text-primary border-b border-borderColor/60 p-3'>
                       <div className='flex place-items-start gap-2'>
                         <Image
                           src={agentDetails.imageUrl || '/images/agent_6.svg'}
@@ -627,7 +627,7 @@ export default function AgentDetail() {
                                   {message.timestamp}
                                 </div>
                               </div>
-                              <div className='px-2 py-2 rounded-full  border border-primary'>
+                              <div className='px-2 py-2 rounded-full  border border-borderColor'>
                                 {/* <Image
                     src="/images/user.svg"
                     alt="User Icon"
@@ -723,7 +723,7 @@ export default function AgentDetail() {
                     </div>
 
                     {/* Chat Input */}
-                    <div className='absolute rounded-lg bg-lightbg bottom-0 left-0 w-full flex items-center gap-2 p-2 text-primary  border-t border-primary/60 mt-8'>
+                    <div className='absolute rounded-lg bg-gradient-to-br from-darkStart to-darkEnd bottom-0 left-0 w-full flex items-center gap-2 p-2 text-primary  border-t border-borderColor/60 mt-8'>
                       <input
                         type='text'
                         placeholder={
@@ -735,12 +735,12 @@ export default function AgentDetail() {
                         onChange={(e) => setInputMessage(e.target.value)}
                         onKeyPress={!loading ? handleKeyPress : undefined}
                         disabled={!authenticated || loading}
-                        className={`flex-grow py-2 px-4 placeholder:text-primary border border-primary/60 bg-lightbg rounded-lg text-primary focus:border-primary focus:outline-none ${!authenticated ? 'opacity-60 ' : ''
+                        className={`flex-grow py-2 px-4 placeholder:text-primary border border-borderColor/60 bg-gradient-to-br from-darkStart to-darkEnd rounded-lg text-primary focus:border-borderColor focus:outline-none ${!authenticated ? 'opacity-60 ' : ''
                           }`}
                       />
                       <button
                         onClick={() => handleSendMessage(inputMessage)}
-                        className={`px-3 py-2 border border-primary/60 rounded-md ${!authenticated || loading
+                        className={`px-3 py-2 border border-borderColor/60 rounded-md ${!authenticated || loading
                             ? 'opacity-60 cursor-not-allowed'
                             : 'text-primary'
                           }`}
@@ -757,7 +757,7 @@ export default function AgentDetail() {
               {activeTab === 'information' && (
                 <div className='flex flex-col gap-4 h-full text-primary'>
                   <div className='grid grid-cols-2 gap-4'>
-                    <div className='bg-lightbg backdrop-blur-sm p-6 rounded-lg border border-primary/60'>
+                    <div className='bg-gradient-to-br from-darkStart to-darkEnd backdrop-blur-sm p-6 rounded-lg border border-borderColor/60'>
                       <h3 className='text-xl font-bold text-primary mb-4 flex items-center space-x-2'>
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
@@ -814,12 +814,12 @@ export default function AgentDetail() {
                       </div>
                     </div>
 
-                    <div className=' backdrop-blur-sm p-6 rounded-lg border border-primary/60'>
+                    <div className=' backdrop-blur-sm p-6 rounded-lg border border-borderColor/60'>
                       <h3 className='text-xl font-bold text-primary mb-4 flex items-center space-x-2'>
                         <span>Personality Traits</span>
                       </h3>
                       <div className='grid grid-cols-2 gap-4'>
-                        <div className='p-4  rounded-lg border border-primary/60'>
+                        <div className='p-4  rounded-lg border border-borderColor/60'>
                           <div className='flex items-center space-x-2 mb-2'>
                             <span className='text-sm '>Intelligence</span>
                           </div>
@@ -827,7 +827,7 @@ export default function AgentDetail() {
                             98%
                           </div>
                         </div>
-                        <div className='p-4  rounded-lg border border-primary/60'>
+                        <div className='p-4  rounded-lg border border-borderColor/60'>
                           <div className='flex items-center space-x-2 mb-2'>
                             <span className='text-sm '>Accuracy</span>
                           </div>
@@ -835,7 +835,7 @@ export default function AgentDetail() {
                             95%
                           </div>
                         </div>
-                        <div className='p-4  rounded-lg border border-primary/60'>
+                        <div className='p-4  rounded-lg border border-borderColor/60'>
                           <div className='flex items-center space-x-2 mb-2'>
                             <span className='text-sm '>Security</span>
                           </div>
@@ -843,7 +843,7 @@ export default function AgentDetail() {
                             97%
                           </div>
                         </div>
-                        <div className='p-4  rounded-lg border border-primary/60'>
+                        <div className='p-4  rounded-lg border border-borderColor/60'>
                           <div className='flex items-center space-x-2 mb-2'>
                             <span className='text-sm '>Processing</span>
                           </div>
@@ -855,7 +855,7 @@ export default function AgentDetail() {
                     </div>
                   </div>
 
-                  <div className=' backdrop-blur-sm p-6 rounded-lg border border-primary/60'>
+                  <div className=' backdrop-blur-sm p-6 rounded-lg border border-borderColor/60'>
                     <h3 className='text-xl font-bold text-primary mb-4 flex items-center space-x-2'>
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -905,7 +905,7 @@ export default function AgentDetail() {
 
               {/* Trade Section */}
               {activeTab === 'trade' && (
-                <div className='md:col-span-8 h-full p-4 border border-primary/60 text-primary rounded-lg'>
+                <div className='md:col-span-8 h-full p-4 border border-borderColor/60 text-primary rounded-lg'>
                   <h2 className='text-2xl font-bold text-left'>
                     Token Trading
                   </h2>
@@ -920,7 +920,7 @@ export default function AgentDetail() {
                       Token trading functionality will be available soon on
                       Raydium DEX. Stay tuned for updates!
                     </p>
-                    <div className='w-full max-w-md p-4 bg-primary/10 rounded-lg border border-primary/60 mx-auto'>
+                    <div className='w-full max-w-md p-4 bg-primary/10 rounded-lg border border-borderColor/60 mx-auto'>
                       <div className='flex items-start space-x-3'>
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
@@ -964,18 +964,18 @@ export default function AgentDetail() {
             </div>
           </div>
           <div className='col-span-3 my-6'>
-            <div className='p-4 my-auto border border-primary/60 rounded-lg bg-lightbg mb-4'>
+            <div className='p-4 my-auto border border-borderColor/60 rounded-lg bg-gradient-to-br from-darkStart to-darkEnd mb-4'>
               {/* Buy/Sell Tab Switch */}
               <div className='grid grid-cols-2 mb-4 bg-primary/10 rounded-sm'>
                 <button
-                  className={`text-primary ${activeTradeTab === 'buy' ? 'border p-1 rounded-sm border-primary' : ''
+                  className={`text-primary ${activeTradeTab === 'buy' ? 'border p-1 rounded-sm border-borderColor' : ''
                     }`}
                   onClick={() => setActiveTradeTab('buy')}
                 >
                   Buy
                 </button>
                 <button
-                  className={`text-primary ${activeTradeTab === 'sell' ? 'border p-1 rounded-sm border-primary' : ''
+                  className={`text-primary ${activeTradeTab === 'sell' ? 'border p-1 rounded-sm border-borderColor' : ''
                     }`}
                   onClick={() => setActiveTradeTab('sell')}
                 >
@@ -1001,7 +1001,7 @@ export default function AgentDetail() {
               )}
 
               {/* Graph Placeholder */}
-              <div className='h-32 bg-lightbg/20 border border-primary/60 rounded-md mb-4'>
+              <div className='h-32 bg-gradient-to-br from-darkStart to-darkEnd/20 border border-borderColor/60 rounded-md mb-4'>
                 <p className='text-center text-primary'>Graph Placeholder</p>
               </div>
 
@@ -1009,7 +1009,7 @@ export default function AgentDetail() {
               <div className='flex items-center mb-4'>
                 <Input
                   type='number'
-                  className='border border-primary/60 rounded-md p-2 flex-grow'
+                  className='border border-borderColor/60 rounded-md p-2 flex-grow'
                   placeholder='Enter amount'
                   value={tradeAmount}
                   onChange={(e) => setTradeAmount(e.target.value)}
@@ -1021,7 +1021,7 @@ export default function AgentDetail() {
                 {[700, 200, 500].map((amt) => (
                   <button
                     key={amt}
-                    className='bg-primary/10 border border-primary/60 text-primary rounded-md px-4 py-2'
+                    className='bg-primary/10 border border-borderColor/60 text-primary rounded-md px-4 py-2'
                     onClick={() => setTradeAmount(amt.toString())} // ✅ Convert number to string
                   >
                     {amt}
@@ -1034,39 +1034,39 @@ export default function AgentDetail() {
 
               {/* Buy or Sell Button (Only one displayed at a time) */}
               {activeTradeTab === 'buy' ? (
-                <button className='bg-primary text-white rounded-md px-4 py-2 w-full'>
+                <button className='bg-primary/10 border border-borderColor/60 text-white rounded-md px-4 py-2 w-full'>
                   Buy
                 </button>
               ) : (
-                <button className='bg-primary text-white rounded-md px-4 py-2 w-full'>
+                <button className='bg-primary/10 border border-borderColor/60 text-white rounded-md px-4 py-2 w-full'>
                   Sell
                 </button>
               )}
             </div>
 
-            <div className='p-4 bg-lightbg text-primary rounded-lg border border-primary/60 w-full'>
+            <div className='p-4 bg-gradient-to-br from-darkStart to-darkEnd text-primary rounded-lg border border-borderColor/60 w-full'>
               {/* Token Price */}
               <h2 className='text-2xl font-bold'>$0.020955</h2>
 
               {/* Market Stats */}
               <div className='grid grid-cols-2 gap-2 mt-2'>
-                <div className='p-2 rounded-lg border border-primary/60'>
+                <div className='p-2 rounded-lg border border-borderColor/60'>
                   <span className='text-sm text-primary'>Market Cap</span>
                   <div className='text-lg font-bold'>$21.02m</div>
                 </div>
-                <div className='p-3 rounded-lg border border-primary/60'>
+                <div className='p-3 rounded-lg border border-borderColor/60'>
                   <span className='text-sm text-primary'>Liquidity</span>
                   <div className='text-lg font-bold'>$4.23m</div>
                 </div>
-                <div className='p-3 rounded-lg border border-primary/60'>
+                <div className='p-3 rounded-lg border border-borderColor/60'>
                   <span className='text-sm text-primary'>Holders</span>
                   <div className='text-lg font-bold'>266,647</div>
                 </div>
-                <div className='p-3 rounded-lg border border-primary/60'>
+                <div className='p-3 rounded-lg border border-borderColor/60'>
                   <span className='text-sm text-primary'>24h Volume</span>
                   <div className='text-lg font-bold'>$165.51k</div>
                 </div>
-                <div className='p-3 rounded-lg border border-primary/60 col-span-2'>
+                <div className='p-3 rounded-lg border border-borderColor/60 col-span-2'>
                   <span className='text-sm text-primary'>Top 10</span>
                   <div className='text-md font-bold'>40.14%</div>
                 </div>

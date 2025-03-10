@@ -134,8 +134,8 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col gap-2 items-center justify-center bg-lightbg/50">
-      <div className="bg-lightbg border border-primary/60 text-primary  rounded-lg shadow-lg w-[90%] max-w-md p-7 relative">
+    <div className="fixed inset-0 z-50 flex flex-col gap-2 items-center justify-center bg-gradient-to-br from-darkStart to-darkEnd/50">
+      <div className="bg-gradient-to-br from-darkStart to-darkEnd border border-borderColor/60 text-primary  rounded-lg shadow-lg w-[90%] max-w-md p-7 relative">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-2xl font-semibold">Get S Tokens</h2>
           <button onClick={onClose} className="text-foreground">
@@ -146,7 +146,7 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
           Purchase tokens to unlock AI agent interactions
         </p>
         <Button
-      className="w-full border border-primary/60 text-primary  rounded-md flex gap-1"
+      className="w-full border border-borderColor/60 text-primary  rounded-md flex gap-1"
       onClick={login}
     >
       <Wallet className="text-primary"/>
@@ -173,7 +173,7 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
         </Button>
       </div>
 
-      <div className="bg-lightbg border text-primary border-primary/60  rounded-lg shadow-lg w-[90%] max-w-md p-7 relative">
+      <div className="bg-gradient-to-br from-darkStart to-darkEnd border text-primary border-borderColor/60  rounded-lg shadow-lg w-[90%] max-w-md p-7 relative">
         <div>
           <h3 className="text-2xl font-semibold mb-4">Add S token</h3>
           <p className="text-sm ">
@@ -184,19 +184,19 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
           </p>
           <div className="flex gap-2 mb-4">
             <button
-              className="w-1/3  border border-primary/60  hover:bg-primary/10  p-2 rounded-md text-center"
+              className="w-1/3  border border-borderColor/60  hover:bg-primary/10  p-2 rounded-md text-center"
               onClick={() => setGinAmount("500000")}
             >
               500K
             </button>
             <button
-              className="w-1/3  border border-primary/60  hover:bg-primary/10  p-2 rounded-md text-center"
+              className="w-1/3  border border-borderColor/60  hover:bg-primary/10  p-2 rounded-md text-center"
               onClick={() => setGinAmount("1000000")}
             >
               1M
             </button>
             <button
-              className="w-1/3  border border-primary/60  hover:bg-primary/10  p-2 rounded-md text-center"
+              className="w-1/3  border border-borderColor/60  hover:bg-primary/10  p-2 rounded-md text-center"
               onClick={() => setGinAmount("2000000")}
             >
               2M
@@ -208,7 +208,7 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
             value={ginAmount}
             onChange={(e) => setGinAmount(e.target.value)}
             placeholder="S TOKEN amount"
-            className="w-full px-4 py-3 bg-lightbg rounded-md placeholder:text-primary border border-primary/60 my-3 focus:outline-none"
+            className="w-full px-4 py-3 bg-gradient-to-br from-darkStart to-darkEnd rounded-md placeholder:text-primary border border-borderColor/60 my-3 focus:outline-none"
             disabled={!authenticated}
           />
           <p className="text-sm">
@@ -217,7 +217,7 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
           
           <div className="flex gap-2 mt-4">
             <Button
-              className={`w-full bg-lightbg  border border-primary/60  hover:bg-primary/10 rounded-md ${
+              className={`w-full bg-gradient-to-br from-darkStart to-darkEnd  border border-borderColor/60  hover:bg-primary/10 rounded-md ${
                 !authenticated || !ginAmount || loading ? "opacity-50 cursor-not-allowed text-primary" : "text-primary"
               }`}
               onClick={handleExchange}
@@ -227,7 +227,7 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
             </Button>
             <Button
               variant="outline"
-              className="w-full bg-lightbg hover:text-primary  border border-primary/60  hover:bg-primary/10  rounded-md"
+              className="w-full bg-gradient-to-br from-darkStart to-darkEnd hover:text-primary  border border-borderColor/60  hover:bg-primary/10  rounded-md"
               onClick={onClose}
             >
               Cancel

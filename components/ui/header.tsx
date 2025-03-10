@@ -259,14 +259,14 @@ export const Header: React.FC = () => {
 
         <div className="flex items-center gap-4">
           {/* <div className="hidden md:flex items-center gap-2 cursor-pointer" onClick={toggleModal}>
-            <div className="p-2 rounded-sm border border-primary text-primary ">
+            <div className="p-2 rounded-sm border border-borderColor text-primary ">
               <Plus className="h-4 w-4 text-primary" />
             </div>
             <span className="text-primary">{formatBalance(balance)} S TOKEN</span>
           </div> */}
 
           <Button
-            className="border border-primary text-primary"
+            className="border border-borderColor text-primary"
             onClick={navigateToCreateAgentPage}
           >
             <span className="hidden md:inline">Create Agent</span>
@@ -286,7 +286,7 @@ export const Header: React.FC = () => {
             <div className="relative">
 
               <Button
-                className="border border-primary text-primary  flex gap-2 items-center"
+                className="border border-borderColor text-primary  flex gap-2 items-center"
                 onClick={toggleDropdown}
               >
                 <Wallet className="text-primary" />
@@ -296,7 +296,7 @@ export const Header: React.FC = () => {
               </Button>
 
               {dropdownOpen && (
-                <div className="absolute z-10 right-0 border border-primary text-primary  shadow-lg rounded-md py-2 w-44">
+                <div className="absolute z-10 right-0 border border-borderColor text-primary  shadow-lg rounded-md py-2 w-44">
                   <div
                     className="px-4 py-2 text-sm text-primary hover:bg-[#ff7f50]/10 cursor-pointer"
                     onClick={() => router.push("/myagents")}
@@ -314,10 +314,10 @@ export const Header: React.FC = () => {
             </div>
           ) : (
             <Button
-              className="bg-primary text-black hover:bg-primary/90 flex gap-1"
+              className="border border-borderColor text-primary flex gap-1"
               onClick={login}
             >
-              <Image src="/images/connect.svg" alt="connect" width={22} height={16} />
+               <Wallet/>
               <span className="hidden md:inline">Connect</span>
             </Button>
           )}
@@ -327,20 +327,20 @@ export const Header: React.FC = () => {
       <Modal isOpen={isModalOpen} onClose={toggleModal} />
 
       {disconnectModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-lightbg/10">
-          <div className="bg-lightbg border border-primary text-primary rounded-lg shadow-lg p-6 text-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-darkStart to-darkEnd/10">
+          <div className="bg-gradient-to-br from-darkStart to-darkEnd border border-borderColor text-primary rounded-lg shadow-lg p-6 text-center">
             <h2 className="text-lg font-semibold mb-4">Disconnect Wallet</h2>
             <p className="text-sm mb-1">Are you sure you want to disconnect your wallet?</p>
             <p className="text-xs mb-6 text-primary">on disconnect, redirect to home page</p>
             <div className="flex justify-center gap-4">
               <Button
-                className="text-primary border border-primary/80 rounded-md"
+                className="text-primary border border-borderColor/80 rounded-md"
                 onClick={confirmDisconnect}
               >
                 Disconnect
               </Button>
               <button
-                className="border border-primary/80  rounded-md px-4 py-2"
+                className="border border-borderColor/80  rounded-md px-4 py-2"
                 onClick={cancelDisconnect}
               >
                 Cancel

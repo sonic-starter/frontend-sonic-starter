@@ -57,7 +57,7 @@ export default function AgentCard({ agent }: AgentCardProps) {
           query: { id },
         }}
       >
-        <Card className="group relative overflow-hidden bg-lightbg border border-primary text-primary cursor-pointer p-4">
+        <Card className="group relative overflow-hidden bg-gradient-to-br from-darkStart to-darkEnd border border-borderColor text-primary cursor-pointer p-4">
           <div className="flex items-start gap-2">
             <div
               className="h-16 w-16 flex items-center justify-center overflow-hidden mr-4"
@@ -74,7 +74,7 @@ export default function AgentCard({ agent }: AgentCardProps) {
               <div className="flex justify-between mb-2">
                 <Badge
                   variant="outline"
-                  className={`flex items-center  border border-primary/60 text-primary/60  gap-2 ${agent.isActive ? "" : ""}`}
+                  className={`flex items-center  border border-borderColor/60 text-primary/60  gap-2 ${agent.isActive ? "" : ""}`}
                 >
                   <span
                     className={`h-2 w-2 rounded-full ${agent.isActive ? "bg-primary" : "bg-gray-400"}`}

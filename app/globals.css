@@ -91,15 +91,22 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--background);
+  background: #181818; /* Dark background matching the app */
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ea550a; /* Orange scrollbar thumb */
-  border-radius: var(--radius);
+  background: #282828; /* Slightly lighter than track for visibility */
+  border-radius: 10px;
+  border: 2px solid #181818; /* Creates a subtle border effect */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ea550a; /* Darker orange on hover */
+  background: #3a3a3a; /* Slightly lighter on hover */
 }
 
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #282828 #181818;
+}

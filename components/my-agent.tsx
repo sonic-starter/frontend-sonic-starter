@@ -73,7 +73,7 @@ export default function MyAgents() {
   };
   
   return (
-    <div className="min-h-screen bg-lightbg">
+    <div className="min-h-screen bg-gradient-to-br from-darkStart to-darkEnd">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <Header />
         <div className="py-12 space-y-8 text-center">

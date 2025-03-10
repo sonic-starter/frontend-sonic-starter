@@ -71,8 +71,8 @@ export function PaginationC({ currentPage, totalPages, onPageChange }: Paginatio
           <button
             key={index}
             onClick={() => onPageChange(page)}
-            className={`px-4 py-2 text-primary  hover:border hover:border-primary  hover:text-primary rounded-md ${
-              currentPage === page ? " border border-primary text-primary hover:bg-primary/10 hover:text-primary" : "bg-transparent text-primary"
+            className={`px-4 py-2 text-primary  hover:border hover:border-borderColor  hover:text-primary rounded-md ${
+              currentPage === page ? " border border-borderColor text-primary hover:bg-primary/10 hover:text-primary" : "bg-transparent text-primary"
             }`}
           >
             {page}

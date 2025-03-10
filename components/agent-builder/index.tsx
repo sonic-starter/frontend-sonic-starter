@@ -449,7 +449,7 @@ export default function AgentBuilder({ agentId }: any) {
     <div className="min-h-screen bg-background">
       {loading && (
         <div className=" inset-0 flex justify-center items-center bg-opacity-50 bg-black z-50 mt-24">
-          <div className="w-16 h-16 border-t-4 border-b-4 border-primary border-solid rounded-full animate-spin"></div>
+          <div className="w-16 h-16 border-t-4 border-b-4 border-borderColor border-solid rounded-full animate-spin"></div>
         </div>
       )}
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">

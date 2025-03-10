@@ -8,7 +8,7 @@ interface CategoryCardProps {
 export const CategoryCard: React.FC<CategoryCardProps> = ({ title, icon, onClick, selected }) => { // {{ edit_2 }} Updated to include selected prop
   return (
     <div 
-      className={`flex flex-col items-center text-primary p-4 border transition ${selected ? 'bg-primary/10 border-primary hover:border-primary/80' : ' border-primary/50 hover:border-primary/60'} cursor-pointer rounded-lg`}
+      className={`flex flex-col items-center text-primary p-4 border transition ${selected ? 'bg-primary/10 border-borderColor hover:border-borderColor/80' : ' border-borderColor/50 hover:border-borderColor/60'} cursor-pointer rounded-lg`}
       onClick={onClick}
     >
       {icon}
