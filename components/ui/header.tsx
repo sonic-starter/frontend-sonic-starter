@@ -66,66 +66,6 @@ export const Header: React.FC = () => {
 
 
 
-  // const authenticateUser = async () => {
-  //   // Check if JWT token already exists in context or localStorage
-  //   const storedToken = localStorage.getItem("jwtToken");
-  //   if (jwtToken || storedToken) {
-  //     setJwtToken(storedToken);
-  //     return;
-  //   }
-
-  //   if (!authenticated || !user?.wallet?.address) return;
-
-  //   try {
-  //     const nonceResponse = await axios.post(`${config.BASE_URL}/api/users/get-nonce`, {
-  //       address: user.wallet.address,
-  //     });
-
-  //     if (nonceResponse.status !== 200 || !nonceResponse.data.nonce) {
-  //       throw new Error("Failed to fetch nonce for authentication.");
-  //     }
-
-  //     const message = nonceResponse.data.nonce;
-  //     let signature;
-  //     console.log("User wallet object:", user.wallet);
-  //     if ('embedded' in user.wallet) {
-  //       signature = await signMessage(message);
-  //     } else if (window.ethereum) {
-  //       const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //       const signer = provider.getSigner();
-  //       signature = await signer.signMessage(message);
-  //     } else {
-  //       throw new Error("No wallet available to sign the message.");
-  //     }
-
-  //     console.log("signature in header...........", signature);
-
-  //     const response = await axios.post(`${config.BASE_URL}/api/users/authenticate`, {
-  //       address: user.wallet.address,
-  //       signature: signature,
-  //     });
-
-  //     if (response.status === 200) {
-  //       toast.success("Successfully authenticated!");
-  //       setJwtToken(response.data.token);  // Store JWT token in context
-  //       localStorage.setItem("jwtToken", response.data.token); // Persist token in localStorage
-  //     } else {
-  //       toast.error("Authentication failed.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Authentication error:", error);
-  //     toast.error("An error occurred during authentication.");
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (authenticated && !jwtToken) {
-  //     authenticateUser();
-  //   }
-  // }, [authenticated]);
-
-
-
   useEffect(() => {
     const fetchToken = async () => {
 

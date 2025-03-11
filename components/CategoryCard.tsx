@@ -1,18 +1,25 @@
 interface CategoryCardProps {
   title: string;
-  icon: React.ReactNode; // You can use an icon library or SVGs
+  icon: React.ReactNode;
   onClick: () => void;
-  selected: boolean; // {{ edit_1 }} Added selected prop
+  selected: boolean;
 }
 
-export const CategoryCard: React.FC<CategoryCardProps> = ({ title, icon, onClick, selected }) => { // {{ edit_2 }} Updated to include selected prop
+export const CategoryCard: React.FC<CategoryCardProps> = ({
+  title,
+  icon,
+  onClick,
+  selected,
+}) => {
   return (
-    <div 
-      className={`flex flex-col items-center text-primary p-4 border transition ${selected ? 'bg-primary/10 border-borderColor hover:border-borderColor/80' : ' border-borderColor/50 hover:border-borderColor/60'} cursor-pointer rounded-lg`}
+    <div
+      className={`flex items-center gap-2 p-3 rounded-lg border transition-all cursor-pointer 
+        ${selected ? "bg-primary/20 border-borderColor/50 shadow-md" : "border-borderColor/50 hover:border-borderColor/80 hover:bg-darkEnd/20"}
+        hover:scale-105`}
       onClick={onClick}
     >
-      {icon}
-      <span className="mt-2 text-lg">{title}</span>
+      <div className="text-primary text-xl">{icon}</div>
+      <span className="text-sm font-medium text-white">{title}</span>
     </div>
   );
 };
