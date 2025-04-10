@@ -103,7 +103,7 @@ export default function AgentDashboard() {
         <Header />
         <div className="py-10 space-y-8">
           <div className="text-center">
-            <h1 className="text-4xl font-extrabold tracking-tight">Sonic Starter AI Agents</h1>
+            <h1 className="text-4xl font-extrabold tracking-tight">Hedera Starter AI Agents</h1>
             <p className="text-lg text-gray-300 max-w-2xl mx-auto mt-2">
               Explore AI agents designed for various tasks and projects, or create your own customized solutions.
             </p>

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';  
-import {base, mainnet, mantle, sepolia, polygon , sonicTestnet,} from 'viem/chains';
+import {base, mainnet, mantle, sepolia, polygon , sonicTestnet , hederaTestnet} from 'viem/chains';
 
 // import './index.css';
 
@@ -32,6 +32,28 @@ interface PrivyProviderWrapperProps {
   testnet: true,
 })
 
+
+// const hederaTestnet =({
+//   id: 296,
+//   name: 'Hedera Testnet',
+//   nativeCurrency: {
+//     decimals: 18,
+//     name: 'Hedera Testnet',
+//     symbol: 'HBAR',
+//   },
+//   rpcUrls: {
+//     default: { http: ['https://testnet.hashio.io/api'] },
+//   },
+//   blockExplorers: {
+//     default: {
+//       name: 'Hedera Testnet Explorer',
+//       url: ' https://hashscan.io/testnet',
+//     },
+//   },
+//   testnet: true,
+// })
+
+
 export const Providers: React.FC<PrivyProviderWrapperProps> = ({ children }) => {
   return (
     <PrivyProvider
@@ -46,9 +68,9 @@ export const Providers: React.FC<PrivyProviderWrapperProps> = ({ children }) => 
         embeddedWallets: {
           createOnLogin: 'users-without-wallets',
         },
-        defaultChain: sonicBlazeTestnet ,
+        defaultChain:  hederaTestnet ,
         // Replace this with a list of your desired supported chains
-        supportedChains: [ sonicBlazeTestnet ,sepolia ] ,
+        supportedChains: [  hederaTestnet ] ,
       }}
     >
       {children}

@@ -18,11 +18,27 @@ import { AgentApiModal } from "../AgentApiModal ";
 import { ethers } from "ethers";
 import abi_erc20 from "@/config/abi_erc20.json";
 import abi_token_bonding_curve_factory from "@/config/abi_Fectory_Bonding_Curve.json";
+import abi_hedera from "@/config/abi_hedera.json";
 import abi_token_bonding_curve from "@/config/abi_Bonding_curve.json";
 import Modal from "../Modal";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card } from "../ui/card";
 import { Bot, Code, Shield, Brain, Cloud, Workflow, Settings } from "lucide-react";
+
+import {
+  Client,
+  PrivateKey,
+  AccountId,
+  TransferTransaction,
+  Hbar,
+  HbarUnit,
+  AccountBalanceQuery,
+} from '@hashgraph/sdk';
+// import dotenv from 'dotenv';
+// import {
+//   convertTransactionIdForMirrorNodeApi,
+//   createLogger,
+// } from '../util/util.js';
 
 
 export interface AgentFunction {
@@ -91,7 +107,7 @@ export default function CreateAgent({ agentId }: any) {
 
   const agentFunctions = [
     { icon: Code, label: "Code Analysis" },
-    { icon: Shield , label: "Data Processing" },
+    { icon: Shield, label: "Data Processing" },
     { icon: Shield, label: "Network Operations" },
     { icon: Brain, label: "Security Analysis" },
     { icon: Cloud, label: "AI Processing" },
@@ -116,6 +132,35 @@ export default function CreateAgent({ agentId }: any) {
     }
     return num.toFixed(2);
   };
+
+
+  // useEffect(() => {
+  //   const connectWallet = async () => {
+  //     if (typeof window.ethereum !== 'undefined') {
+  //       try {
+  //         // Request accounts
+  //         await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+  //         // Create provider and signer
+  //         const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //         const signer = provider.getSigner();
+
+  //        console.log("signer................",signer)
+  //         const userAddress = await signer.getAddress();
+
+  //         console.log('Connected address for hed:', userAddress);
+  //       } catch (err) {
+  //         console.error('Error connecting wallet:', err);
+  //       }
+  //     } else {
+  //       console.log('MetaMask not detected');
+  //     }
+  //   };
+
+  //   connectWallet();
+  // }, []);
+
+
 
   useEffect(() => {
     const fetchBalance = async () => {
@@ -162,13 +207,13 @@ export default function CreateAgent({ agentId }: any) {
 
           setUserAddress(agentData.userAddress);
 
-           // Set additional fields
-      setTokenDetails({
-        name: agentData.tokenName || "",
-        symbol: agentData.tokenSymbol || "",
-        supply: agentData.totalSupply?.toString() || "",
-      });
-      setSelectedFunction(agentData.categories || []); 
+          // Set additional fields
+          setTokenDetails({
+            name: agentData.tokenName || "",
+            symbol: agentData.tokenSymbol || "",
+            supply: agentData.totalSupply?.toString() || "",
+          });
+          setSelectedFunction(agentData.categories || []);
 
           // Set avatar URL directly
           if (agentData.imageUrl) {
@@ -177,7 +222,7 @@ export default function CreateAgent({ agentId }: any) {
             setPreviewUrl(null); // Reset if no avatar
           }
 
-        
+
           console.log("Agent detail for update:", agentData);
         } else {
           console.error("Error fetching agent details:", agentResponse.data.message);
@@ -205,7 +250,7 @@ export default function CreateAgent({ agentId }: any) {
 
       console.log("Using avatar URL:", avatarUrl);
 
-  
+
 
       // Send the updated data to your API
       const agentResponse = await axios.put(`${config.BASE_URL}/api/assistants/${agentId}`, {
@@ -223,7 +268,7 @@ export default function CreateAgent({ agentId }: any) {
         totalSupply: tokenDetails.supply,
         tokenSymbol: tokenDetails.symbol,
         model: "gpt-4",
-        
+
       });
 
       console.log("Agent updated successfully:", agentResponse.data);
@@ -245,7 +290,7 @@ export default function CreateAgent({ agentId }: any) {
     llmProvider: "",
   });
 
-  
+
   const handleBackClick = () => {
     router.back();
   };
@@ -376,50 +421,51 @@ export default function CreateAgent({ agentId }: any) {
 
     try {
       // Request account access if needed
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
-
-      // Create a provider
+      // await window.ethereum.request({ method: 'eth_requestAccounts' });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-
       // Get the signer
       const signer = provider.getSigner();
-
+      console.log('signer hedera:................', signer);
+      const userAddress = await signer.getAddress();
+      console.log("address from hedera............", userAddress)
       // Log the network details to verify the connection
       const network = await provider.getNetwork();
-      console.log('Connected to network:', network);
+      console.log('Connected to network hedera:', network);
 
-      // Ensure you're using Ethereum addresses directly
-      const priceFeedAddress = "0x1D368773735ee1E678950B7A97bcA2CafB330CDc"; // Replace with actual Ethereum address
-      const uniswapRouterAddress = "0x1D368773735ee1E678950B7A97bcA2CafB330CDc"; // Replace with actual Ethereum address
+
+
 
       // Create a contract instance
-      const contract = new ethers.Contract(config.TOKEN_BONDING_CURVE_FACTORY_CONTRACT_ADDRESS, abi_token_bonding_curve_factory, signer);
+      const contract = new ethers.Contract(config.HEDERA_CONTRACT_ADDRESS, abi_hedera, signer);
 
-      // Generate a random unique projectId
-      const projectId = ethers.utils.formatBytes32String(generateRandomUniqueString());
+
 
       // Call the deployContract function with addresses
-      const tx = await contract.deployContract(
-        projectId, // Use projectId
+      const tx = await contract.launchToken(
         formData.agentName, // Use agent name as contract name
         tokenDetails.symbol, // Use token symbol
         parseInt(tokenDetails.supply), // Convert supply to number
-        100, // basePriceUsd, replace with actual value
-        10, // slopeUsd, replace with actual value
-        1000000, // targetMarketCapUsd, replace with actual value
-        priceFeedAddress, // Use Ethereum address
-        uniswapRouterAddress // Use Ethereum address
+        1000000
       );
 
-      console.log("Transaction sent:", tx.hash);
+      console.log("Transaction sent hedera.......:", tx.hash);
 
       // Wait for the transaction to be mined
       const receipt = await tx.wait();
       console.log("Transaction mined:", receipt);
 
-      const contractAddress = receipt.contractAddress; // Assuming the contract address is returned here
-      console.log('Contract function executed, contract address:', contractAddress);
+     
 
+      const event = receipt.events?.find((e : any) => e.event === "TokenLaunched");
+
+      if (event) {
+        console.log("🚀 Token launched!" , event);
+        console.log("Token Address:", event.args.token); // Example
+        console.log("Agent:", event.args.agentName);            // Example
+      }
+
+      const contractAddress = event.args.token; // Assuming the contract address is returned here
+console.log("tokenaddress..........", contractAddress)
       // Proceed with agent creation
       let avatarUrl = "";
 
@@ -447,11 +493,11 @@ export default function CreateAgent({ agentId }: any) {
           totalSupply: tokenDetails.supply,
           tokenSymbol: tokenDetails.symbol,
           model: "gpt-4",
-          projectId: projectId // Add projectId to the API request
+          // projectId: projectId // Add projectId to the API request
         },
         {
           headers: {
-            Authorization: `Bearer ${jwtToken}`,  
+            Authorization: `Bearer ${jwtToken}`,
             "Content-Type": "application/json",
           },
         }
@@ -474,14 +520,14 @@ export default function CreateAgent({ agentId }: any) {
   };
 
   const handleFunctionSelect = (func: { label: string }) => {
-    setSelectedFunction(prev => 
-        prev.includes(func.label) 
-            ? prev.filter(label => label !== func.label) // Deselect if already selected
-            : [...prev, func.label] // Select if not already selected
+    setSelectedFunction(prev =>
+      prev.includes(func.label)
+        ? prev.filter(label => label !== func.label) // Deselect if already selected
+        : [...prev, func.label] // Select if not already selected
     );
   };
 
- 
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-darkStart to-darkEnd text-primary">
@@ -494,14 +540,15 @@ export default function CreateAgent({ agentId }: any) {
 
         <Header />
         <button onClick={handleBackClick} className="text-primary ">
-              <div className="flex items-center gap-4">
-                <ArrowLeft className="h-5 w-5" />
-                <h1 className="text-2xl font-bold">Back</h1>
-              </div>
-            </button>
+          <div className="flex items-center gap-4">
+            <ArrowLeft className="h-5 w-5" />
+            <h1 className="text-2xl font-bold">Back</h1>
+          </div>
+        </button>
+       
         <div className="space-y-4 text-center pt-6">
           <h1 className="text-4xl font-bold tracking-tight text-primary">Create New Agent</h1>
-         
+
         </div>
 
         <div className="py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -687,7 +734,7 @@ export default function CreateAgent({ agentId }: any) {
             </Card>
 
 
-        
+
 
             <div className="rounded-lg">
               {/* <p className="text-sm  text-center">
@@ -715,7 +762,7 @@ export default function CreateAgent({ agentId }: any) {
                   className="w-full border border-borderColor text-primary mt-4 flex gap-1"
                   onClick={login}
                 >
-                  <Wallet/>
+                  <Wallet />
                   Connect MetaMask
                 </Button>
               )}
@@ -729,7 +776,7 @@ export default function CreateAgent({ agentId }: any) {
 
       {isGinModalOpen && <Modal isOpen={isGinModalOpen} onClose={toggleGinTokenModal} />}
 
-    </div>  
+    </div>
 
   );
 }

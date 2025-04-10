@@ -24,6 +24,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { ethers } from 'ethers';
 import abi_erc20 from '@/config/abi_erc20.json';
+import abi_hedera from '@/config/abi_hedera.json';
 import Modal from '../Modal';
 import { useAuth } from '@/contexts/AuthContext';
 import { Input } from '../ui/input';
@@ -141,8 +142,8 @@ export default function AgentDetail() {
         // Create a provider
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const contract = new ethers.Contract(
-          config.ERC20_CONTRACT_ADDRESS,
-          abi_erc20,
+          config.HEDERA_CONTRACT_ADDRESS,
+          abi_hedera,
           provider
         );
 
@@ -263,6 +264,98 @@ export default function AgentDetail() {
     }
     return () => clearInterval(interval);
   }, [loading]);
+
+
+
+  const handleBuy = async () => {
+    try {
+      // Request account access if needed
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+      // Create a provider
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+      // Get the signer
+      const signer = provider.getSigner();
+      if (!agentDetails?.tokenAddress) {
+        console.error("Token address is undefined.");
+        return;
+      }
+      
+      const contract = new ethers.Contract(agentDetails.tokenAddress, abi_hedera, signer);
+
+      // Call the buy function
+      const tx = await contract.buyTokens(tradeAmount,100, {
+        value: ethers.utils.parseEther(tradeAmount.toString() ),
+        // gasPrice: ethers.utils.parseUnits(gas, 9),
+      });
+
+      console.log("Transaction sent:", tx.hash);
+
+      // Wait for the transaction to be mined
+      const receipt = await tx.wait();
+      console.log("Transaction mined:", receipt);
+    } catch (error) {
+      console.error('Error during buy transaction:', error);
+    }
+  };
+
+
+  const handleSell = async () => {
+    try {
+      // Request account access if needed
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+      // Create a provider
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+      // Get the signer
+      const signer = provider.getSigner();
+
+      if (!agentDetails?.tokenAddress) {
+        console.error("Token address is undefined.");
+        return;
+      }
+
+      // Create a contract instance
+      const contract = new ethers.Contract(agentDetails.tokenAddress, abi_hedera, signer);
+
+        // Get user's token balance
+    const balance = await contract.balanceOf(userAddress);
+
+ 
+    
+    // Convert balance from BigNumber to a readable format
+    const balanceFormatted = ethers.utils.formatUnits(balance, 18); // Adjust decimals if needed
+
+    console.log("User Token Balance:", balanceFormatted);
+
+    if (parseFloat(balanceFormatted) <= 0) {
+      console.error("Insufficient token balance to sell.");
+      alert("You do not have enough tokens to sell.");
+      return;
+    }
+
+
+      // Convert the trade amount to an integer
+      const amount = parseInt(tradeAmount, 10);
+
+    const tx = await contract.sellTokens(tradeAmount, {
+        // value: ethers.utils.parseEther(tradeAmount.toString() ),
+        // gasPrice: ethers.utils.parseUnits(gas, 9),
+      });
+
+      console.log("Transaction sent:", tx.hash);
+
+      // Wait for the transaction to be mined
+      const receipt = await tx.wait();
+      console.log("Transaction mined:", receipt);
+    } catch (error) {
+      console.error('Error during sell transaction:', error);
+    }
+  };
+
+
 
   // Ensure the loader is visible and properly styled
   const loader = (

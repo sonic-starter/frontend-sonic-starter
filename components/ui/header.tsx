@@ -82,7 +82,7 @@ export const Header: React.FC = () => {
           });
           
           if (response.status === 200) {
-            toast.success("Token generated successfully!");
+            // toast.success("Token generated successfully!");
             setJwtToken(response.data.token);  // Store JWT token in context
             console.log(jwtToken)
             localStorage.setItem("jwtToken", response.data.token); // Persist token in localStorage
@@ -106,7 +106,7 @@ export const Header: React.FC = () => {
     logout();  // Call Privy's logout function
     setJwtToken(null);
     localStorage.removeItem("jwtToken");
-    toast("Logged out successfully.");
+    // toast("Logged out successfully.");
   };
 
 
@@ -179,7 +179,7 @@ export const Header: React.FC = () => {
 
           <Link href="/" className="cursor-pointer">
             {/* <Image src="/images/logo.svg" alt="Gintonic" width={107} height={35} /> */}
-            <h1 className="text-2xl font-bold text-primary">Sonic Starter</h1>
+            <h1 className="text-2xl font-bold text-primary">Hedera Starter</h1>
           </Link>
 
           {/* {pathname === "/" ? (
