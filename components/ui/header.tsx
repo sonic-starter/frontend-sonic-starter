@@ -14,6 +14,7 @@ import { ethers } from 'ethers';
 import abi_erc20 from '@/config/abi_erc20.json';
 import { useAuth } from "@/contexts/AuthContext";
 import { usePrivy } from "@privy-io/react-auth";
+import ModalDisconnect from "./ModalDisconnect";
 
 export const Header: React.FC = () => {
   const router = useRouter();
@@ -69,18 +70,18 @@ export const Header: React.FC = () => {
   useEffect(() => {
     const fetchToken = async () => {
 
-    const storedToken = localStorage.getItem("jwtToken");
-    if (jwtToken || storedToken) {
-      setJwtToken(storedToken);
-      return;
-    }
+      const storedToken = localStorage.getItem("jwtToken");
+      if (jwtToken || storedToken) {
+        setJwtToken(storedToken);
+        return;
+      }
 
       if (authenticated && userAddress) {
         try {
           const response = await axios.post(`${config.BASE_URL}/api/users/authenticate`, {
             address: userAddress,
           });
-          
+
           if (response.status === 200) {
             // toast.success("Token generated successfully!");
             setJwtToken(response.data.token);  // Store JWT token in context
@@ -101,7 +102,7 @@ export const Header: React.FC = () => {
     fetchToken();
   }, [authenticated && userAddress]);
 
-  
+
   const handleLogout = () => {
     logout();  // Call Privy's logout function
     setJwtToken(null);
@@ -171,125 +172,96 @@ export const Header: React.FC = () => {
     fetchBalance();
   }, [authenticated, userAddress]);
   return (
-    <div >
-      <Toaster position="top-right" reverseOrder={false} />
+    <>
 
-      <header className="flex items-center justify-between mx-auto py-6 max-w-8xl">
-        <div className="flex items-center gap-4">
 
-          <Link href="/" className="cursor-pointer">
-            {/* <Image src="/images/logo.svg" alt="Gintonic" width={107} height={35} /> */}
-            <h1 className="text-2xl font-bold text-primary">Hedera Starter</h1>
-          </Link>
 
-          {/* {pathname === "/" ? (
+      <header className="flex flex-col justify-between h-full ">
+        <div className="flex flex-col gap-10 px-6">
+          <Toaster position="top-right" reverseOrder={false} />
+          <div className="flex flex-col items-start gap-4">
             <Link href="/" className="cursor-pointer">
-             
-              <h1 className="text-2xl font-bold text-primary">Gintonic</h1>
+              <h1 className="text-2xl font-bold text-primary">Hedera Starter</h1>
             </Link>
-          ) : (
-            <button onClick={handleBackClick} className="text-primary ">
-              <div className="flex items-center gap-4">
-                <ArrowLeft className="h-5 w-5" />
-                <h1 className="text-2xl font-bold">Back</h1>
-              </div>
-            </button>
-          )} */}
-        </div>
 
-        <div className="flex items-center gap-4">
-          {/* <div className="hidden md:flex items-center gap-2 cursor-pointer" onClick={toggleModal}>
-            <div className="p-2 rounded-sm border border-borderColor text-primary ">
-              <Plus className="h-4 w-4 text-primary" />
-            </div>
-            <span className="text-primary">{formatBalance(balance)} S TOKEN</span>
-          </div> */}
-
-          <Button
-            className="border border-borderColor text-primary"
-            onClick={navigateToCreateAgentPage}
-          >
-            <span className="hidden md:inline">Create Agent</span>
-           
-          </Button>
-
-          {/* <Button
-            className="bg-black/50 border border-green-500/30 text-green-500 hover:bg-green-500/10 hover:text-green-400"
-            onClick={navigateToCreatePage}
-          >
-            <span className="hidden md:inline">Build Your Agent</span>
-            <span className="md:hidden">Build Agent</span>
-          </Button> */}
-         
-
-          {authenticated ? (
-            <div className="relative">
-
-              <Button
-                className="border border-borderColor text-primary  flex gap-2 items-center"
-                onClick={toggleDropdown}
-              >
-                <Wallet className="text-primary" />
-               
-                <span className="hidden md:inline">{truncatedAddress}</span>
-                {dropdownOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-              </Button>
-
-              {dropdownOpen && (
-                <div className="absolute z-10 right-0 border border-borderColor text-primary  shadow-lg rounded-md py-2 w-44">
-                  <div
-                    className="px-4 py-2 text-sm text-primary hover:bg-primary/10 cursor-pointer"
-                    onClick={() => router.push("/myagents")}
-                  >
-                    My Agents
-                  </div>
-                  <div
-                    className="px-4 py-2 text-sm text-primary hover:bg-primary/10 cursor-pointer"
-                    onClick={handleDisconnectClick}
-                  >
-                    Disconnect
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
             <Button
-              className="border border-borderColor text-primary flex gap-1"
-              onClick={login}
+              className="border border-borderColor text-primary flex gap-1 mt-6 items-center"
+              onClick={navigateToCreateAgentPage}
             >
-               <Wallet/>
-              <span className="hidden md:inline">Connect</span>
+              <Plus className="text-primary" />
+              <span className="hidden md:inline">Create Agent</span>
             </Button>
-          )}
+
+            {authenticated ? (
+              <div className="relative">
+                <Button
+                  className="border border-borderColor text-primary flex gap-1 items-center"
+                  onClick={toggleDropdown}
+                >
+                  <Wallet className="text-primary" />
+                  <span className="hidden md:inline">{truncatedAddress}</span>
+                  {dropdownOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                </Button>
+
+                {dropdownOpen && (
+                  <div className="absolute z-10 right-0 border border-borderColor text-primary shadow-lg rounded-md py-2 w-44">
+                    <div
+                      className="px-4 py-2 text-sm text-primary hover:bg-primary/10 cursor-pointer"
+                      onClick={() => router.push("/myagents")}
+                    >
+                      My Agents
+                    </div>
+                    <div
+                      className="px-4 py-2 text-sm text-primary hover:bg-primary/10 cursor-pointer"
+                      onClick={handleDisconnectClick}
+                    >
+                      Disconnect
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Button className="border border-borderColor text-primary flex gap-1" onClick={login}>
+                <Wallet />
+                <span className="hidden md:inline">Connect</span>
+              </Button>
+            )}
+          </div>
         </div>
+
+        <span className="border-t border-borderColor px-6 pt-6 text-sm text-white/60">© 2025 - Hedera Starter</span>
       </header>
+
 
       <Modal isOpen={isModalOpen} onClose={toggleModal} />
 
       {disconnectModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-darkStart to-darkEnd/10">
-          <div className="bg-gradient-to-br from-darkStart to-darkEnd border border-borderColor text-primary rounded-lg shadow-lg p-6 text-center">
-            <h2 className="text-lg font-semibold mb-4">Disconnect Wallet</h2>
-            <p className="text-sm mb-1">Are you sure you want to disconnect your wallet?</p>
-            <p className="text-xs mb-6 text-primary">on disconnect, redirect to home page</p>
-            <div className="flex justify-center gap-4">
-              <Button
-                className="text-primary border border-borderColor/80 rounded-md"
-                onClick={confirmDisconnect}
-              >
-                Disconnect
-              </Button>
-              <button
-                className="border border-borderColor/80  rounded-md px-4 py-2"
-                onClick={cancelDisconnect}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+       <ModalDisconnect>
+    <div className="bg-gradient-to-br from-darkStart to-darkEnd border border-borderColor text-primary rounded-lg shadow-2xl p-6 text-center w-[90%] max-w-md">
+      <h2 className="text-lg font-semibold mb-4">Disconnect Wallet</h2>
+      <p className="text-sm mb-1">Are you sure you want to disconnect your wallet?</p>
+      <p className="text-xs mb-6 text-primary">On disconnect, you’ll be redirected to the home page.</p>
+      <div className="flex justify-center gap-4">
+        <Button
+          className="text-primary border border-borderColor/80 rounded-md"
+          onClick={confirmDisconnect}
+        >
+          Disconnect
+        </Button>
+        <button
+          className="border border-borderColor/80 rounded-md px-4 py-2"
+          onClick={cancelDisconnect}
+        >
+          Cancel
+        </button>
+      </div>
     </div>
+ 
+  </ModalDisconnect>
+)}
+
+
+    </>
   );
 };
 

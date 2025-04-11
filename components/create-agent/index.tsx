@@ -454,18 +454,18 @@ export default function CreateAgent({ agentId }: any) {
       const receipt = await tx.wait();
       console.log("Transaction mined:", receipt);
 
-     
 
-      const event = receipt.events?.find((e : any) => e.event === "TokenLaunched");
+
+      const event = receipt.events?.find((e: any) => e.event === "TokenLaunched");
 
       if (event) {
-        console.log("🚀 Token launched!" , event);
+        console.log("🚀 Token launched!", event);
         console.log("Token Address:", event.args.token); // Example
         console.log("Agent:", event.args.agentName);            // Example
       }
 
       const contractAddress = event.args.token; // Assuming the contract address is returned here
-console.log("tokenaddress..........", contractAddress)
+      console.log("tokenaddress..........", contractAddress)
       // Proceed with agent creation
       let avatarUrl = "";
 
@@ -530,22 +530,27 @@ console.log("tokenaddress..........", contractAddress)
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-darkStart to-darkEnd text-primary">
-      {loading && (
-        <div className=" inset-0 flex justify-center items-center bg-opacity-50 bg-black z-50 mt-24">
-          <div className="w-16 h-16 border-t-4 border-b-4 border-borderColor border-solid rounded-full animate-spin"></div>
-        </div>
-      )}
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
 
+
+
+
+    <div className="h-screen flex bg-gradient-to-br from-darkStart to-darkEnd text-white overflow-hidden">
+
+
+      <aside className="w-64 h-full py-6 border-r border-borderColor flex flex-col fixed">
         <Header />
+      </aside>
+
+      <main className="ml-64 flex-1 px-10 py-6 overflow-auto">
+
+
         <button onClick={handleBackClick} className="text-primary ">
           <div className="flex items-center gap-4">
             <ArrowLeft className="h-5 w-5" />
             <h1 className="text-2xl font-bold">Back</h1>
           </div>
         </button>
-       
+
         <div className="space-y-4 text-center pt-6">
           <h1 className="text-4xl font-bold tracking-tight text-primary">Create New Agent</h1>
 
@@ -770,7 +775,7 @@ console.log("tokenaddress..........", contractAddress)
 
           </div>
         </div>
-      </div>
+      </main>
 
       <AgentApiModal isOpen={isModalOpen} onClose={toggleModal} formData={formData} />
 

@@ -8,6 +8,7 @@ import { Providers } from './auth/Providers';
 import Footer from '@/components/ui/Footer';
 
 import { AuthProvider } from '@/contexts/AuthContext';
+import { Header } from '@/components/ui/header';
 
 
 const inter = Inter({ subsets: ['latin'] });
@@ -26,13 +27,16 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className="dark">
       <body className={`${inter.className} antialiased`}>
         <AuthProvider>
-            <Providers>
-              <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-                {children}
-                <Footer />
-              </ThemeProvider>
-            </Providers>
-          
+          <Providers>
+            <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+            <aside className="w-64 h-full py-6 border-r border-borderColor flex flex-col fixed">
+        <Header />
+      </aside>
+              {children}
+              {/* <Footer /> */}
+            </ThemeProvider>
+          </Providers>
+
         </AuthProvider>
       </body>
     </html>

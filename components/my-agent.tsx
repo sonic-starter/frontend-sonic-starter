@@ -7,6 +7,7 @@ import { SearchBar } from "@/components/ui/search-bar";
 import { AgentGrid } from "@/components/agent-grid";
 import config from "@/config/config";
 import { usePrivy } from "@privy-io/react-auth";
+import { Copyright } from "lucide-react";
 
 
 
@@ -73,10 +74,14 @@ export default function MyAgents() {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-darkStart to-darkEnd">
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Header />
-        <div className="py-12 space-y-8 text-center">
+    <div className="h-screen flex bg-gradient-to-br from-darkStart to-darkEnd text-white overflow-hidden">
+    {/* Sidebar */}
+   
+
+    {/* Main Content */}
+    <main className="ml-64 flex-1 px-10 py-6 overflow-auto">
+        
+        <div className=" space-y-8 text-center">
           <div className="space-y-4">
             <h1 className="text-4xl font-bold tracking-tight text-primary">My Agents</h1>
           </div>
@@ -91,7 +96,7 @@ export default function MyAgents() {
             onPageChange={handlePageChange}
           />
         </div>
-      </div>
+      </main>
     </div>
   );
 }

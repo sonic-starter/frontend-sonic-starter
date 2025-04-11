@@ -281,14 +281,11 @@ export default function AgentDetail() {
         console.error("Token address is undefined.");
         return;
       }
-      
+
       const contract = new ethers.Contract(agentDetails.tokenAddress, abi_hedera, signer);
 
       // Call the buy function
-      const tx = await contract.buyTokens(tradeAmount,100, {
-        value: ethers.utils.parseEther(tradeAmount.toString() ),
-        // gasPrice: ethers.utils.parseUnits(gas, 9),
-      });
+      const tx = await contract.buyTokens(agentDetails.tokenAddress, tradeAmount.toString());
 
       console.log("Transaction sent:", tx.hash);
 
@@ -320,30 +317,28 @@ export default function AgentDetail() {
       // Create a contract instance
       const contract = new ethers.Contract(agentDetails.tokenAddress, abi_hedera, signer);
 
-        // Get user's token balance
-    const balance = await contract.balanceOf(userAddress);
+      // Get user's token balance
+      const balance = await contract.balanceOf(userAddress);
 
- 
-    
-    // Convert balance from BigNumber to a readable format
-    const balanceFormatted = ethers.utils.formatUnits(balance, 18); // Adjust decimals if needed
+      console.log("balance before sell.....", balance)
 
-    console.log("User Token Balance:", balanceFormatted);
 
-    if (parseFloat(balanceFormatted) <= 0) {
-      console.error("Insufficient token balance to sell.");
-      alert("You do not have enough tokens to sell.");
-      return;
-    }
+      // Convert balance from BigNumber to a readable format
+      const balanceFormatted = ethers.utils.formatUnits(balance, 18); // Adjust decimals if needed
+
+      console.log("User Token Balance:", balanceFormatted);
+
+      if (parseFloat(balanceFormatted) <= 0) {
+        console.error("Insufficient token balance to sell.");
+        alert("You do not have enough tokens to sell.");
+        return;
+      }
 
 
       // Convert the trade amount to an integer
       const amount = parseInt(tradeAmount, 10);
 
-    const tx = await contract.sellTokens(tradeAmount, {
-        // value: ethers.utils.parseEther(tradeAmount.toString() ),
-        // gasPrice: ethers.utils.parseUnits(gas, 9),
-      });
+      const tx = await contract.sellTokens(agentDetails.tokenAddress, tradeAmount.toString());
 
       console.log("Transaction sent:", tx.hash);
 
@@ -567,10 +562,12 @@ export default function AgentDetail() {
   };
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-darkStart to-darkEnd text-primary'>
-      <div className='max-w-8xl mx-auto px-4 sm:px-6 lg:px-8'>
+    <div className="h-screen flex bg-gradient-to-br from-darkStart to-darkEnd text-white overflow-hidden">
+    
+
+      <main className="ml-64 flex-1 px-10 py-6 overflow-auto">
         {/* Header */}
-        <Header />
+
         <button onClick={handleBackClick} className='text-primary '>
           <div className='flex items-center gap-4'>
             <ArrowLeft className='h-5 w-5' />
@@ -630,8 +627,8 @@ export default function AgentDetail() {
               <div className='flex gap-8 border-b border-borderColor/60'>
                 <button
                   className={`py-2 ${activeTab === 'aiAgentChat'
-                      ? 'text-primary border-b-2 border-borderColor'
-                      : 'text-primary'
+                    ? 'text-primary border-b-2 border-borderColor'
+                    : 'text-primary'
                     }`}
                   onClick={() => handleTabChange('aiAgentChat')}
                 >
@@ -639,8 +636,8 @@ export default function AgentDetail() {
                 </button>
                 <button
                   className={`py-2 ${activeTab === 'information'
-                      ? 'text-primary border-b-2 border-borderColor'
-                      : 'text-primary'
+                    ? 'text-primary border-b-2 border-borderColor'
+                    : 'text-primary'
                     }`}
                   onClick={() => handleTabChange('information')}
                 >
@@ -648,8 +645,8 @@ export default function AgentDetail() {
                 </button>
                 <button
                   className={`py-2 ${activeTab === 'trade'
-                      ? 'text-primary border-b-2 border-borderColor'
-                      : 'text-primary'
+                    ? 'text-primary border-b-2 border-borderColor'
+                    : 'text-primary'
                     }`}
                   onClick={() => handleTabChange('trade')}
                 >
@@ -657,8 +654,8 @@ export default function AgentDetail() {
                 </button>
                 <button
                   className={`py-2 ${activeTab === 'graph'
-                      ? 'text-primary border-b-2 border-borderColor'
-                      : 'text-primary'
+                    ? 'text-primary border-b-2 border-borderColor'
+                    : 'text-primary'
                     }`}
                   onClick={() => handleTabChange('graph')}
                 >
@@ -708,8 +705,8 @@ export default function AgentDetail() {
                         <div
                           key={index}
                           className={`flex ${message.sender === 'user'
-                              ? 'justify-end'
-                              : 'justify-start'
+                            ? 'justify-end'
+                            : 'justify-start'
                             }`}
                         >
                           {message.sender === 'user' ? (
@@ -766,9 +763,9 @@ export default function AgentDetail() {
                                           remarkPlugins={[remarkGfm]}
                                           rehypePlugins={[rehypeRaw]}
                                           className={`text-primary prose prose-invert ${loading &&
-                                              index === messages.length - 1
-                                              ? grayTextClass
-                                              : ''
+                                            index === messages.length - 1
+                                            ? grayTextClass
+                                            : ''
                                             }`}
                                         >
                                           {message.text}
@@ -834,8 +831,8 @@ export default function AgentDetail() {
                       <button
                         onClick={() => handleSendMessage(inputMessage)}
                         className={`px-3 py-2 border border-borderColor/60 rounded-md ${!authenticated || loading
-                            ? 'opacity-60 cursor-not-allowed'
-                            : 'text-primary'
+                          ? 'opacity-60 cursor-not-allowed'
+                          : 'text-primary'
                           }`}
                         disabled={!authenticated || loading}
                       >
@@ -1127,12 +1124,18 @@ export default function AgentDetail() {
 
               {/* Buy or Sell Button (Only one displayed at a time) */}
               {activeTradeTab === 'buy' ? (
-                <button className='bg-primary/10 border border-borderColor/60 text-white rounded-md px-4 py-2 w-full'>
-                  Buy
+                <button className='bg-primary/10 border border-borderColor/60 text-white rounded-md px-4 py-2 w-full'
+                  onClick={handleBuy}
+                  disabled={loading}
+                >
+                  {loading ? "Processing..." : "Buy"}
                 </button>
               ) : (
-                <button className='bg-primary/10 border border-borderColor/60 text-white rounded-md px-4 py-2 w-full'>
-                  Sell
+                <button className='bg-primary/10 border border-borderColor/60 text-white rounded-md px-4 py-2 w-full'
+                  onClick={handleSell}
+                  disabled={loading}
+                >
+                  {loading ? "Processing..." : "Sell"}
                 </button>
               )}
             </div>
@@ -1200,7 +1203,7 @@ export default function AgentDetail() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
 
       <Modal isOpen={isModalOpen} onClose={toggleModal} />
 

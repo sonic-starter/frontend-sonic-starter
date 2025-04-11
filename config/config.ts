@@ -17,6 +17,4 @@ const config = {
     HEDERA_CONTRACT_ADDRESS: "0x280625f10Fa042396e8053D94A2878Ec3Acfe6A9",
 };
 
-
-
 export default config;
