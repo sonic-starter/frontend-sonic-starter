@@ -2,7 +2,7 @@
 // src/config.js
 const config = {
 
-    BASE_URL: "https://ai-agent-backend-production.up.railway.app",
+    BASE_URL: "https://sonic-backend.up.railway.app",
     
     // BASE_URL: "https://d8dc-182-77-121-32.ngrok-free.app",
     // BASE_URL: "http://localhost:3006",
@@ -14,7 +14,7 @@ const config = {
     GINTONIC_CONTRACT_ADDRESS: "0x732Cf7d6FBE82605D3174ac9B5CbfC5B8EaAb986",
     TOKEN_BONDING_CURVE_FACTORY_CONTRACT_ADDRESS: "0xB17E4Cf9e6445F63e25A95e7E3A77c79BA9bb281",
     TOKEN_BONDING_CURVE_CONTRACT_ADDRESS: "0x5F880dfF3E2Fd9BFc0919E64E305B09A432d918D",
-    HEDERA_CONTRACT_ADDRESS: "0x280625f10Fa042396e8053D94A2878Ec3Acfe6A9",
+    HEDERA_CONTRACT_ADDRESS: "0xCeC32D5826DC2042568265A75A8eB7376382039E",
 };
 
 export default config;

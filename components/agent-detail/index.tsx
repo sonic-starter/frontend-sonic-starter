@@ -78,6 +78,7 @@ export default function AgentDetail() {
   );
 
   const [tradeAmount, setTradeAmount] = useState<string>('');
+  const [contractBalance, setContractBalance] = useState("0");
 
   const { jwtToken } = useAuth();
 
@@ -141,16 +142,14 @@ export default function AgentDetail() {
       try {
         // Create a provider
         const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const contract = new ethers.Contract(
-          config.HEDERA_CONTRACT_ADDRESS,
-          abi_hedera,
-          provider
-        );
+        const balance = await provider.getBalance(userAddress);
+        const ethBalance = ethers.utils.formatEther(balance);
+        console.log("Contract balance in ETH...................:", ethBalance);
 
         // Call the balanceOf function
-        const balance = await contract.balanceOf(userAddress);
+        
         setBalance(ethers.utils.formatUnits(balance, 18)); // Format the balance
-        console.log('balance...............', balance);
+        console.log('balance of hedera ...............', balance);
       } catch (error) {
         console.error('Error fetching balance:', error);
       }
@@ -282,10 +281,17 @@ export default function AgentDetail() {
         return;
       }
 
-      const contract = new ethers.Contract(agentDetails.tokenAddress, abi_hedera, signer);
+
+      const totalCost = (parseInt(tradeAmount) * 0.01).toString();
+
+      const contract = new ethers.Contract(config.HEDERA_CONTRACT_ADDRESS, abi_hedera, signer);
 
       // Call the buy function
-      const tx = await contract.buyTokens(agentDetails.tokenAddress, tradeAmount.toString());
+      const tx = await contract.buyTokens(agentDetails.tokenAddress, ethers.utils.parseEther(tradeAmount), {
+        value: ethers.utils.parseEther(totalCost)
+    });
+
+    console.log( "buy cost..................",ethers.utils.parseEther(totalCost))
 
       console.log("Transaction sent:", tx.hash);
 
@@ -298,57 +304,106 @@ export default function AgentDetail() {
   };
 
 
+
   const handleSell = async () => {
     try {
       // Request account access if needed
       await window.ethereum.request({ method: 'eth_requestAccounts' });
-
-      // Create a provider
+  
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-      // Get the signer
       const signer = provider.getSigner();
-
+  
       if (!agentDetails?.tokenAddress) {
         console.error("Token address is undefined.");
         return;
       }
+  
+      const contract = new ethers.Contract(config.HEDERA_CONTRACT_ADDRESS, abi_hedera, signer);
+  
+      // Convert tradeAmount to integer and calculate ETH value to be sent back
+      const amount = parseInt(tradeAmount);
+      // const sellValue = parseFloat((amount * 0.01).toString());
 
-      // Create a contract instance
-      const contract = new ethers.Contract(agentDetails.tokenAddress, abi_hedera, signer);
+      const sellValue = (amount * 0.01).toString();
 
-      // Get user's token balance
-      const balance = await contract.balanceOf(userAddress);
+  
+      // Check if contract has enough ETH to process the sell
+      
+      // const contractBalance = await provider.getBalance(config.HEDERA_CONTRACT_ADDRESS);
 
-      console.log("balance before sell.....", balance)
-
-
-      // Convert balance from BigNumber to a readable format
-      const balanceFormatted = ethers.utils.formatUnits(balance, 18); // Adjust decimals if needed
-
-      console.log("User Token Balance:", balanceFormatted);
-
-      if (parseFloat(balanceFormatted) <= 0) {
-        console.error("Insufficient token balance to sell.");
-        alert("You do not have enough tokens to sell.");
-        return;
-      }
+      // const ethBalance = ethers.utils.formatEther(contractBalance);
+      // console.log("Contract balance in ETH:", ethBalance);
 
 
-      // Convert the trade amount to an integer
-      const amount = parseInt(tradeAmount, 10);
-
-      const tx = await contract.sellTokens(agentDetails.tokenAddress, tradeAmount.toString());
-
-      console.log("Transaction sent:", tx.hash);
-
-      // Wait for the transaction to be mined
+      // if (contractBalance.lt(sellValue)) {
+      //   alert("Contract has insufficient balance to process this sale.");
+      //   return;
+      // }
+  
+      // Proceed with selling tokens
+      const tx = await contract.sellTokens(agentDetails.tokenAddress, ethers.utils.parseEther(sellValue));
+      console.log("Sell transaction sent:", tx.hash);
+  
       const receipt = await tx.wait();
-      console.log("Transaction mined:", receipt);
+      console.log("Sell transaction confirmed:", receipt);
+  
     } catch (error) {
-      console.error('Error during sell transaction:', error);
+      console.error("Error during sell transaction:", error);
+  
+   
     }
   };
+  
+  
+
+
+  // const handleSell = async () => {
+  //   try {
+  //     // Request account access if needed
+  //     await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+  //     // Create a provider
+  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+  //     // Get the signer
+  //     const signer = provider.getSigner();
+
+  //     if (!agentDetails?.tokenAddress) {
+  //       console.error("Token address is undefined.");
+  //       return;
+  //     }
+
+  //     // Create a contract instance
+  //     const contract = new ethers.Contract(config.HEDERA_CONTRACT_ADDRESS, abi_hedera, signer);
+
+  //     // Get user's token balance
+  //     // const balance = await contract.balanceOf(userAddress);
+  //     // console.log("balance before sell.....", balance)
+  //     // // Convert balance from BigNumber to a readable format
+  //     // const balanceFormatted = ethers.utils.formatUnits(balance, 18); // Adjust decimals if needed
+  //     // console.log("User Token Balance:", balanceFormatted);
+
+  //     // if (parseFloat(balanceFormatted) <= 0) {
+  //     //   console.error("Insufficient token balance to sell.");
+  //     //   alert("You do not have enough tokens to sell.");
+  //     //   return;
+  //     // }
+
+
+  //     // Convert the trade amount to an integer
+  //     const amount = parseInt(tradeAmount);
+
+  //     const tx = await contract.sellTokens(agentDetails.tokenAddress, tradeAmount.toString());
+
+  //     console.log("Transaction sent:", tx.hash);
+
+  //     // Wait for the transaction to be mined
+  //     const receipt = await tx.wait();
+  //     console.log("Transaction mined:", receipt);
+  //   } catch (error) {
+  //     console.error('Error during sell transaction:', error);
+  //   }
+  // };
 
 
 
@@ -1077,38 +1132,50 @@ export default function AgentDetail() {
               {activeTradeTab === 'buy' ? (
                 <>
                   <h2 className='text-2xl font-bold text-primary'>Buy Tokens</h2>
-                  <p className='text-lg text-primary'>
-                    $0.53 <span className='text-green-500'>+2.18%</span>
-                  </p>
+                 
+                  <p>1 ${agentDetails.tokenSymbol} : 0.01 HBAR</p>
+                  <p className='mt-4'>Enter Tokens</p>
                 </>
               ) : (
                 <>
                   <h2 className='text-2xl font-bold text-primary'>Sell Tokens</h2>
-                  <p className='text-lg text-primary'>
-                    $0.53 <span className='text-red-500'>-2.18%</span>
-                  </p>
+                  <p>0.01 HBAR : 1 ${agentDetails.tokenSymbol}</p>
+                  <p className='mt-4'>Enter Token</p>
                 </>
               )}
 
               {/* Graph Placeholder */}
-              <div className='h-32 bg-gradient-to-br from-darkStart to-darkEnd/20 border border-borderColor/60 rounded-md mb-4'>
+              {/* <div className='h-32 bg-gradient-to-br from-darkStart to-darkEnd/20 border border-borderColor/60 rounded-md mb-4'>
                 <p className='text-center text-primary'>Graph Placeholder</p>
-              </div>
+              </div> */}
 
               {/* Input Field */}
-              <div className='flex items-center mb-4'>
+              <div className='flex flex-col items-start mb-4'>
                 <Input
                   type='number'
                   className='border border-borderColor/60 rounded-md p-2 flex-grow'
-                  placeholder='Enter amount'
+                  placeholder='Enter Token'
                   value={tradeAmount}
                   onChange={(e) => setTradeAmount(e.target.value)}
                 />
+                 {activeTradeTab === 'buy' ? (
+                <>
+                  <p>you will be charged {parseInt(tradeAmount || "0")*0.01} HBAR</p>
+                </>
+              ) : (
+                <>
+                  <p>you will get {parseInt(tradeAmount || "0")*0.01} HBAR</p>
+                </>
+              )}
+
               </div>
+
+             
+
 
               {/* Quick Amount Selection */}
               <div className='grid grid-cols-3 gap-2 mb-4'>
-                {[700, 200, 500].map((amt) => (
+                {[5, 10, 15].map((amt) => (
                   <button
                     key={amt}
                     className='bg-primary/10 border border-borderColor/60 text-primary rounded-md px-4 py-2'
@@ -1120,7 +1187,7 @@ export default function AgentDetail() {
               </div>
 
               {/* Available Balance */}
-              <p className='text-sm text-gray-500 mb-4'>Available Balance: $0.00</p>
+              <p className='text-sm text-gray-500 mb-4'>Available Balance: {balance} HBAR</p>
 
               {/* Buy or Sell Button (Only one displayed at a time) */}
               {activeTradeTab === 'buy' ? (
